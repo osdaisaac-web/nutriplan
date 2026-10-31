@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>NutriPlan CEMDE - Plan Clínico Activo</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { width: 100%; margin: 0; padding: 0; }
+      body { overscroll-behavior: none; min-height: 100dvh; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#6ffbbe",
+            "inverse-on-surface": "#eef0ff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#002113",
+            "on-tertiary-container": "#fffbff",
+            "surface-container-low": "#f2f3ff",
+            "inverse-surface": "#283044",
+            "primary-container": "#00855d",
+            "on-primary-fixed": "#002114",
+            "tertiary-container": "#a36700",
+            "tertiary-fixed-dim": "#ffb95f",
+            "inverse-primary": "#68dba9",
+            "on-secondary-fixed-variant": "#005236",
+            "primary": "#006948",
+            "primary-fixed-dim": "#68dba9",
+            "on-surface": "#131b2e",
+            "surface-variant": "#dae2fd",
+            "on-primary": "#ffffff",
+            "surface-container-highest": "#dae2fd",
+            "secondary": "#006c49",
+            "surface-dim": "#d2d9f4",
+            "surface": "#faf8ff",
+            "surface-bright": "#faf8ff",
+            "on-tertiary-fixed-variant": "#653e00",
+            "secondary-container": "#6cf8bb",
+            "background": "#faf8ff",
+            "primary-fixed": "#85f8c4",
+            "outline-variant": "#bccac0",
+            "secondary-fixed-dim": "#4edea3",
+            "on-secondary-container": "#00714d",
+            "surface-container": "#eaedff",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffddb8",
+            "surface-tint": "#006c4a",
+            "on-background": "#131b2e",
+            "on-primary-container": "#f5fff7",
+            "on-primary-fixed-variant": "#005137",
+            "on-tertiary-fixed": "#2a1700",
+            "on-surface-variant": "#3d4a42",
+            "on-error": "#ffffff",
+            "tertiary": "#825100",
+            "surface-container-high": "#e2e7ff",
+            "error": "#ba1a1a",
+            "outline": "#6d7a72",
+            "surface-container-lowest": "#ffffff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-sm": "0.5rem",
+            "margin": "1.25rem",
+            "space-xs": "0.25rem",
+            "space-xl": "1.75rem",
+            "space-lg": "1.25rem",
+            "gutter": "1rem",
+            "space-md": "0.875rem"
+          },
+          fontFamily: {
+            "label-numeric-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-badge": ["Plus Jakarta Sans", "sans-serif"],
+            "title-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "title-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-numeric-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          fontSize: {
+            "label-numeric-lg": ["22px", { "lineHeight": "26px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "label-badge": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "title-md": ["17px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "title-sm": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "label-numeric-md": ["15px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-col min-h-screen">
+
+  <!-- TOP HEADER -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 px-margin max-w-3xl mx-auto flex items-center justify-between gap-space-sm">
+      <div class="flex items-center gap-space-sm min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-primary text-on-primary flex items-center justify-center flex-shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">health_metrics</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-space-xs">
+            <span class="font-title-sm text-title-sm text-on-surface truncate">NutriPlan CEMDE</span>
+            <span class="px-space-xs py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge leading-none tracking-normal uppercase">Clínico Activo</span>
+          </div>
+          <span class="font-body-sm text-body-sm text-on-surface-variant truncate" id="header-subtitle">Equivalencias y Porciones</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-xs flex-shrink-0">
+        <button id="header-bell-btn" aria-label="Probar alerta de comida" class="relative w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-[22px]">notifications_active</span>
+          <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#25D366]"></span>
+        </button>
+        <button id="header-water-pill" class="px-2.5 py-1.5 rounded-full bg-surface-container-low text-primary font-label-badge text-label-badge flex items-center gap-1 hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined text-[16px]">water_drop</span>
+          <span id="header-water-count">4/8</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 flex flex-col relative w-full max-w-3xl mx-auto pt-16 pb-28 bg-surface px-margin">
+
+    <!-- ==========================================
+         TAB 1: EQUIVALENCIAS (SELECTOR POR COMIDA)
+         ========================================== -->
+    <section id="view-equivalencias" class="flex flex-col w-full pb-24">
+      <!-- Meal Time Navigation (Horizontal Segmented Pills) -->
+      <div class="flex items-center gap-space-xs overflow-x-auto py-2 -mx-margin px-margin no-scrollbar" id="meal-tabs-container">
+        <button data-meal="desayuno" class="meal-pill flex-shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm transition-all" type="button">
+          Desayuno
+        </button>
+        <button data-meal="mediamanana" class="meal-pill flex-shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm transition-all" type="button">
+          Media Mañana
+        </button>
+        <button data-meal="almuerzo" class="meal-pill flex-shrink-0 flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-primary text-on-primary font-title-sm text-title-sm shadow-[0_2px_8px_rgba(0,105,72,0.25)] transition-all" type="button">
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>
+          Almuerzo
+        </button>
+        <button data-meal="algo" class="meal-pill flex-shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm transition-all" type="button">
+          Algo (Tarde)
+        </button>
+        <button data-meal="cena" class="meal-pill flex-shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm transition-all" type="button">
+          Comida (Cena)
+        </button>
+      </div>
+
+      <!-- Meal Prescription Header -->
+      <div class="mt-space-md flex flex-col gap-space-xs">
+        <div class="flex items-center justify-between">
+          <h1 id="meal-title" class="font-headline-md text-headline-md text-on-surface">Almuerzo Principal</h1>
+          <span class="px-space-sm py-1 rounded-full bg-primary-fixed/40 text-on-primary-fixed-variant font-label-badge text-label-badge flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">verified</span>
+            CEMDE RX
+          </span>
+        </div>
+        <div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+          <span class="material-symbols-outlined text-[16px] text-primary">schedule</span>
+          <span>Horario sugerido: <strong id="meal-time-badge" class="text-on-surface font-semibold">12:30 PM</strong></span>
+          <span>•</span>
+          <span id="meal-subtitle-info">Plato saludable 50% verdura / 25% prot / 25% harina</span>
+        </div>
+      </div>
+
+      <!-- WhatsApp & App Notification Banner -->
+      <div class="mt-space-md p-space-md rounded-xl bg-secondary-container/30 shadow-[0_2px_8px_rgba(0,108,73,0.06)] flex items-center justify-between gap-space-sm">
+        <div class="flex items-center gap-space-sm min-w-0">
+          <div class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <span class="material-symbols-outlined text-[22px]">notifications_active</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-title-sm text-title-sm text-on-surface truncate">Alerta WhatsApp / App</span>
+              <span id="wa-time-tag" class="font-label-badge text-label-badge px-1.5 py-0.5 rounded bg-white text-[#075e54] font-bold">12:15 PM</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">15 min antes con tu selección de hoy</p>
+          </div>
+        </div>
+        <button aria-label="Alternar recordatorio" class="w-12 h-7 bg-primary rounded-full p-0.5 flex items-center transition-all cursor-pointer flex-shrink-0" id="wa-toggle-btn" type="button">
+          <div class="w-6 h-6 bg-white rounded-full shadow-md translate-x-5 transition-transform" id="wa-toggle-knob"></div>
+        </button>
+      </div>
+
+      <!-- Dynamic Stack Container for Current Meal -->
+      <div id="meal-cards-container" class="mt-space-lg flex flex-col gap-space-lg">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 2: MI PLAN (RECOMENDACIONES + SEMÁFORO)
+         ========================================== -->
+    <section id="view-mi-plan" class="hidden flex-col w-full pb-20 gap-space-lg pt-2">
+      <!-- Sub-navigation inside Mi Plan -->
+      <div class="grid grid-cols-2 gap-1.5 p-1 bg-surface-container-low rounded-xl">
+        <button id="subtab-menus-btn" class="py-2 px-3 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm shadow-sm transition-all flex items-center justify-center gap-1.5" type="button">
+          <span class="material-symbols-outlined text-[18px]">restaurant_menu</span>
+          Ideas de Platos y Carnes
+        </button>
+        <button id="subtab-semaforo-btn" class="py-2 px-3 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container transition-all flex items-center justify-center gap-1.5" type="button">
+          <span class="material-symbols-outlined text-[18px]">traffic</span>
+          Semáforo CEMDE
+        </button>
+      </div>
+
+      <!-- SUB-VIEW 2A: RECOMENDACIONES DE COMIDAS Y CARNES -->
+      <div id="subview-menus" class="flex flex-col gap-space-md">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface">Menús y Carnes Recomendadas</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Combinaciones listas basadas 100% en tu hoja médica CEMDE. Toca <strong>"Usar hoy"</strong> para cargarla en tu plato.
+          </p>
+        </div>
+
+        <!-- Meat Preparation Quick Guide from CEMDE Sheet -->
+        <div class="p-space-md rounded-xl bg-primary-fixed/30 border border-primary/15 flex flex-col gap-2">
+          <div class="flex items-center gap-2 text-on-primary-fixed-variant font-title-sm text-title-sm">
+            <span class="material-symbols-outlined text-[20px] text-primary">scale</span>
+            <span>Truco médico para medir los 100-125g de carne:</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Cuando compres <strong>1 libra (500g) de carne magra, pechuga o pescado crudo</strong>, divídela en <strong>4 a 5 porciones iguales</strong> antes de congelar. Cada paquete equivale exactamente a 1 porción de tu almuerzo o cena.
+          </p>
+        </div>
+
+        <!-- Filter pills for Recommended Combos -->
+        <div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-1">
+          <button data-combo-filter="all" class="combo-filter-btn px-3 py-1 rounded-full bg-primary text-on-primary font-label-badge text-label-badge">Todos</button>
+          <button data-combo-filter="almuerzo" class="combo-filter-btn px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Almuerzos</button>
+          <button data-combo-filter="cena" class="combo-filter-btn px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Cenas</button>
+          <button data-combo-filter="algo" class="combo-filter-btn px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Desayuno / Algo</button>
+        </div>
+
+        <!-- Recommended Meals List -->
+        <div id="recommended-combos-list" class="flex flex-col gap-space-md">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- SUB-VIEW 2B: BUSCADOR SEMÁFORO (PREFERIR VS EVITAR) -->
+      <div id="subview-semaforo" class="hidden flex-col gap-space-md">
+        <div class="flex flex-col gap-1">
+          <h2 class="font-headline-sm text-headline-sm text-on-surface">Buscador: Preferir vs. Evitar</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Consulta en segundos si un alimento, carne, lácteo o aliño está permitido en tu hoja médica.
+          </p>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+          <input id="food-search-input" type="text" placeholder="Buscar ej: chicharrón, bagre, quesito, panela, ajo..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/60 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary shadow-sm"/>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1" id="semaforo-cat-pills">
+          <button data-cat="all" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-badge text-label-badge">Todos</button>
+          <button data-cat="Carnes" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Carnes y Pescados</button>
+          <button data-cat="Lácteos" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Lácteos y Quesos</button>
+          <button data-cat="Bebidas" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Bebidas y Dulces</button>
+          <button data-cat="Cocción" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Cocción y Grasas</button>
+          <button data-cat="Aliños" class="sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge">Aliños y Panadería</button>
+        </div>
+
+        <!-- Semáforo Cards Container -->
+        <div id="semaforo-results" class="flex flex-col gap-space-md">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 3: NUTRICIONISTA (BOT WHATSAPP + ALERTAS APP)
+         ========================================== -->
+    <section id="view-nutricionista" class="hidden flex-col w-full pb-20 gap-space-lg pt-2">
+      <div class="flex flex-col gap-1">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">Recordatorios y Asistente</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          Configura tus alertas nativas en el celular o conéctalas con tu Bot de WhatsApp / Cloudflare.
+        </p>
+      </div>
+
+      <!-- Native App Notification Card -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-10 h-10 rounded-xl bg-primary-fixed/50 text-primary flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-[22px]">notifications_active</span>
+            </div>
+            <div>
+              <h3 class="font-title-md text-title-md text-on-surface">1. Notificación de la App (Gratis)</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Funciona sin servidores pagos desde el navegador</p>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">Recomendado</span>
+        </div>
+
+        <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          Al activar las alertas locales, la aplicación te avisará con sonido y notificación emergente la comida que te toca con tus porciones seleccionadas.
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          <button id="test-app-notification-btn" class="flex-1 py-2.5 px-4 rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" type="button">
+            <span class="material-symbols-outlined text-[18px]">campaign</span>
+            Simular Alerta de Comida Ahora
+          </button>
+        </div>
+      </div>
+
+      <!-- WhatsApp Bot / Webhook Integration Card -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-10 h-10 rounded-xl bg-[#25D366]/15 text-[#075e54] flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-[22px]">chat</span>
+          </div>
+          <div>
+            <h3 class="font-title-md text-title-md text-on-surface">2. Conexión con WhatsApp</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Envía tu plan diario o conecta un Webhook (Cloudflare / GHL)</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-space-sm">
+          <label class="font-label-badge text-label-badge text-on-surface-variant uppercase">Número de WhatsApp (con código de país, ej. 57)</label>
+          <div class="flex gap-2">
+            <input id="wa-phone-input" type="tel" placeholder="573001234567" class="flex-1 px-3.5 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary"/>
+            <button id="send-wa-summary-btn" class="px-4 py-2.5 rounded-xl bg-[#25D366] text-white font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" type="button">
+              <span class="material-symbols-outlined text-[18px]">send</span>
+              Enviar Plan
+            </button>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            Toca <strong>"Enviar Plan"</strong> para abrir WhatsApp con el resumen exacto de tus 5 comidas y porciones elegidas hoy.
+          </p>
+        </div>
+
+        <!-- Optional Webhook for Cloudflare Worker / GHL -->
+        <details class="group bg-surface-container-low rounded-xl p-space-sm">
+          <summary class="font-title-sm text-title-sm text-primary cursor-pointer flex items-center justify-between list-none">
+            <span class="flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">webhook</span>
+              Configurar Webhook Automático (Cloudflare / GHL / n8n)
+            </span>
+            <span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="mt-space-sm flex flex-col gap-2 pt-2 border-t border-outline-variant/30">
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Si tienes un Inbound Webhook en GoHighLevel o un Cloudflare Worker, pégalo aquí. Cuando toques "Confirmar" en una comida, se enviará el JSON con las porciones:
+            </p>
+            <input id="webhook-url-input" type="url" placeholder="https://services.leadconnectorhq.com/hooks/..." class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/50 font-body-sm text-body-sm"/>
+            <button id="save-webhook-btn" class="self-end px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-badge text-label-badge" type="button">
+              Guardar Webhook
+            </button>
+          </div>
+        </details>
+      </div>
+
+      <!-- Interactive Diet Assistant Chat (Responds instant doubts from the CEMDE sheets) -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-10 h-10 rounded-xl bg-tertiary-fixed/50 text-tertiary flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-[22px]">smart_toy</span>
+          </div>
+          <div>
+            <h3 class="font-title-md text-title-md text-on-surface">Asistente Clínico Rápido</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Toca una duda frecuente sobre tu hoja CEMDE</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-1.5" id="faq-quick-chips">
+          <button data-q="sancocho" class="faq-chip px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed/40 text-on-surface font-body-sm text-body-sm transition-colors">🍲 ¿Si hay frijoles o sopa qué hago?</button>
+          <button data-q="chicharron" class="faq-chip px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed/40 text-on-surface font-body-sm text-body-sm transition-colors">🥓 ¿Puedo comer chicharrón?</button>
+          <button data-q="cena" class="faq-chip px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed/40 text-on-surface font-body-sm text-body-sm transition-colors">🌙 ¿No quiero carne en la noche?</button>
+          <button data-q="jugos" class="faq-chip px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed/40 text-on-surface font-body-sm text-body-sm transition-colors">🍹 ¿Qué tomo si me da sed?</button>
+          <button data-q="alinos" class="faq-chip px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed/40 text-on-surface font-body-sm text-body-sm transition-colors">🧄 ¿Con qué aliño la carne?</button>
+        </div>
+
+        <div id="faq-answer-box" class="p-space-md rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm leading-relaxed border-l-4 border-primary">
+          👆 Toca cualquiera de las preguntas de arriba para ver la regla exacta de tu nutricionista CEMDE.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 4: MI PERFIL (AGUA, AYUNO 12H Y HÁBITOS)
+         ========================================== -->
+    <section id="view-mi-perfil" class="hidden flex-col w-full pb-20 gap-space-lg pt-2">
+      <div class="flex flex-col gap-1">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">Control de Hábitos CEMDE</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          Metas diarias exigidas en la primera página de tu plan nutricional.
+        </p>
+      </div>
+
+      <!-- 1. Hydration Tracker (6 to 8 glasses) -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-space-sm">
+            <div class="w-10 h-10 rounded-xl bg-primary-fixed/40 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[22px]">water_full</span>
+            </div>
+            <div>
+              <h3 class="font-title-md text-title-md text-on-surface">Hidratación Diaria</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Meta médica: 6 a 8 vasos de agua al día</p>
+            </div>
+          </div>
+          <span id="water-badge-status" class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">4 / 8 vasos</span>
+        </div>
+
+        <div id="water-glasses-grid" class="grid grid-cols-4 sm:grid-cols-8 gap-2">
+          <!-- 8 interactive glasses rendered by JS -->
+        </div>
+      </div>
+
+      <!-- 2. 12-Hour Overnight Fast Calculator -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-10 h-10 rounded-xl bg-tertiary-fixed/50 text-tertiary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[22px]">bedtime</span>
+          </div>
+          <div>
+            <h3 class="font-title-md text-title-md text-on-surface">Regla de Ayuno Nocturno (12 Horas)</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">"Procure mínimo 12 horas entre la última comida y la primera del día siguiente"</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-space-sm items-center bg-surface-container-low p-space-md rounded-xl">
+          <div class="flex flex-col gap-1">
+            <label class="font-label-badge text-label-badge text-on-surface-variant uppercase">Hora de tu última comida:</label>
+            <input id="last-meal-time-input" type="time" value="19:30" class="px-3 py-2 rounded-lg bg-white border border-outline-variant/50 font-title-sm text-title-sm text-on-surface"/>
+          </div>
+          <div class="flex flex-col gap-1 pl-2 border-l border-outline-variant/40">
+            <span class="font-label-badge text-label-badge text-secondary uppercase">Desayunar a partir de:</span>
+            <span id="next-breakfast-time" class="font-headline-sm text-headline-sm text-primary">07:30 AM</span>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">Cumple 12h de reposo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Daily Habits Checklist from Sheet 1 -->
+      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+        <div class="flex items-center gap-space-sm">
+          <div class="w-10 h-10 rounded-xl bg-secondary-fixed/50 text-secondary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[22px]">task_alt</span>
+          </div>
+          <div>
+            <h3 class="font-title-md text-title-md text-on-surface">Lista de Chequeo de Hábitos</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Recomendaciones generales de tu hoja médica</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low cursor-pointer">
+            <input type="checkbox" checked class="w-5 h-5 accent-[#006948] rounded"/>
+            <span class="font-body-sm text-body-sm text-on-surface">Comer despacio, dedicar tiempo y masticar bien los alimentos.</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low cursor-pointer">
+            <input type="checkbox" checked class="w-5 h-5 accent-[#006948] rounded"/>
+            <span class="font-body-sm text-body-sm text-on-surface">Uso moderado de sal solo al cocinar (retirar el salero de la mesa).</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low cursor-pointer">
+            <input type="checkbox" class="w-5 h-5 accent-[#006948] rounded"/>
+            <span class="font-body-sm text-body-sm text-on-surface">Actividad física regular: meta mínimo 150 minutos a la semana.</span>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low cursor-pointer">
+            <input type="checkbox" checked class="w-5 h-5 accent-[#006948] rounded"/>
+            <span class="font-body-sm text-body-sm text-on-surface">Respetar horarios fijos y no omitir ninguna comida.</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Floating Fixed Action Drawer (Only visible on Equivalencias tab) -->
+    <div id="floating-confirm-bar" class="fixed bottom-16 left-0 w-full z-40 px-margin pointer-events-none">
+      <div class="max-w-lg mx-auto pointer-events-auto bg-inverse-surface text-inverse-on-surface p-space-md rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.22)] flex items-center justify-between gap-space-md mb-2">
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-secondary-fixed"></span>
+            <span id="Summary-bar-title" class="font-title-sm text-title-sm text-white truncate">Almuerzo Configurado</span>
+          </div>
+          <span id="summary-bar-subtitle" class="font-body-sm text-body-sm text-inverse-on-surface/80 truncate">Pollo/Res Magro + 4 cdas Arroz</span>
+        </div>
+        <div class="flex items-center gap-space-xs flex-shrink-0">
+          <button class="px-space-md py-2.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="confirm-meal-btn" type="button">
+            <span class="material-symbols-outlined text-[18px]">check_circle</span>
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Modal -->
+    <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 px-space-md py-2.5 rounded-full bg-on-surface text-surface shadow-xl flex items-center gap-2 opacity-0 pointer-events-none transition-all duration-300 max-w-[90vw]" id="toast-modal">
+      <span class="material-symbols-outlined text-[18px] text-secondary-fixed flex-shrink-0">check_circle</span>
+      <span id="toast-text" class="font-body-sm text-body-sm truncate">¡Selección guardada!</span>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]">
+    <div class="flex justify-around items-center h-16 px-space-xs max-w-lg mx-auto">
+      <button data-nav="equivalencias" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs transition-colors text-primary font-title-sm" type="button">
+        <span class="material-symbols-outlined text-[24px]">skillet</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Equivalencias</span>
+      </button>
+      <button data-nav="mi-plan" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
+        <span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Ideas y Semáforo</span>
+      </button>
+      <button data-nav="nutricionista" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
+        <span class="material-symbols-outlined text-[24px]">notifications_active</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Bot y Alertas</span>
+      </button>
+      <button data-nav="mi-perfil" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
+        <span class="material-symbols-outlined text-[24px]">water_drop</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Agua y Ayuno</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- APPLICATION LOGIC -->
+  <script>
+    (function() {
+      // ==========================================
+      // 1. COMPLETE MEDICAL DATA FROM CEMDE SHEETS
+      // ==========================================
+      const MEALS_DATA = {
+        desayuno: {
+          title: "Desayuno Clínico",
+          time: "07:30 AM",
+          waTime: "07:15 AM",
+          subtitle: "Romper el ayuno de 12h con proteína y carbohidrato integral",
+          selectedProteinIdx: 0,
+          selectedCarbIdx: 0,
+          proteinHeader: "1. Queso, Huevo o Sustituto",
+          proteinBadge: "1 a 2 Porciones",
+          proteinOptions: [
+            {
+              name: "Quesito o cuajada fresca (1 tajada de 32g) + 1 Huevo",
+              measure: "1 tajada de 1 cm de grosor + 1 unidad",
+              desc: "Preparar el huevo cocido, pochado o revuelto con tomate y cebolla sin mantequilla.",
+              tag: "Alto Valor"
+            },
+            {
+              name: "Jamón Pietrán bajo en grasa (2 tajadas)",
+              measure: "2 tajadas + 1 tajada de quesito",
+              desc: "Carnes frías bajas en grasa permitidas (pollo o pavo). Evitar salchichón o mortadela.",
+              tag: "Magro"
+            },
+            {
+              name: "Queso Mozzarella bajo en grasa (2 lonchitas)",
+              measure: "2 lonchitas Finesse o Colanta light",
+              desc: "Evitar queso amarillo o mozzarella entero graso.",
+              tag: "Light"
+            },
+            {
+              name: "Huevos de codorniz (5 unidades)",
+              measure: "5 unidades cocidas",
+              desc: "Excelente alternativa equivalente a 1 porción de proteína.",
+              tag: "Equivalente"
+            }
+          ],
+          carbHeader: "2. Harina de Desayuno",
+          carbRule: "Escoge 1 sola opción. Evita productos de panadería fritos, rellenos de queso o de pasta hojaldrada.",
+          carbOptions: [
+            { title: "1 Arepa delgada", sub: "Medio-tela blanca o amarilla", icon: "radio_button_unchecked" },
+            { title: "3 cdas Avena", sub: "En hojuelas cocida en agua/leche", icon: "rice_bowl" },
+            { title: "1 Pan integral", sub: "1 tajada horneada", icon: "bakery_dining" },
+            { title: "3 Galletas integrales", sub: "Sin azúcar añadida", icon: "cookie" },
+            { title: "1 Tortilla integral", sub: "De maíz o trigo integral", icon: "circle" },
+            { title: "3 Tostadas de arroz", sub: "Arroz inflado ligeras", icon: "grain" }
+          ],
+          extraCard: {
+            title: "3. Bebida Matutina",
+            subtitle: "Lácteos semidescremados o infusiones",
+            mainText: "Café o chocolate en agua o leche semidescremada sin azúcar añadida",
+            subText: "Opcional: endulzante no calórico (stevia o sucralosa). Prohibido azúcar, panela o miel.",
+            nextMealTitle: "Siguiente: Media Mañana",
+            nextMealTime: "10:00 AM",
+            nextMealDesc: "1 porción de fruta entera (ej. 1 mandarina o manzana pequeña)"
+          }
+        },
+
+        mediamanana: {
+          title: "Media Mañana",
+          time: "10:00 AM",
+          waTime: "09:45 AM",
+          subtitle: "Control de ansiedad y aporte de fibra natural",
+          selectedProteinIdx: 0,
+          selectedCarbIdx: 0,
+          proteinHeader: "1. Fruta Entera (No muy madura)",
+          proteinBadge: "1 Porción",
+          proteinOptions: [
+            {
+              name: "1 Unidad pequeña (Manzana, Mandarina, Pera, Mango, Pitaya)",
+              measure: "1 unidad entera sin licuar",
+              desc: "Consumir entera y no muy madura para aprovechar la fibra y evitar picos de azúcar.",
+              tag: "Fibra"
+            },
+            {
+              name: "12 Unidades (Fresas, Uvas o Uchuvas)",
+              measure: "12 unidades enteras lavadas",
+              desc: "Ideales para llevar en recipiente al trabajo.",
+              tag: "Antioxidante"
+            },
+            {
+              name: "2 Unidades pequeñas (Granadilla, Durazno, Guayaba, Ciruela)",
+              measure: "2 unidades medianas/pequeñas",
+              desc: "También aplica para níspero o tomate de árbol.",
+              tag: "Vitaminas"
+            },
+            {
+              name: "1 Tajada (Papaya, Piña, Melón o Sandía) o 1/2 Banano",
+              measure: "1 tajada mediana o medio banano pequeño",
+              desc: "Cuidar que la fruta no esté sobremadura.",
+              tag: "Refrescante"
+            }
+          ],
+          carbHeader: "2. Acompañamiento Proteico (Opcional)",
+          carbRule: "Escoge 1 opción si sientes hambre antes del almuerzo.",
+          carbOptions: [
+            { title: "Solo Fruta + Agua", sub: "Opción ligera estándar", icon: "nutrition" },
+            { title: "1 Tajada Quesito", sub: "1 cm de grosor (32g)", icon: "lunch_dining" },
+            { title: "6 Almendras", sub: "Naturales sin sal", icon: "spa" },
+            { title: "Yogurt Griego/Light", sub: "Semidescremado sin azúcar", icon: "local_drink" }
+          ],
+          extraCard: {
+            title: "3. Hidratación de Media Mañana",
+            subtitle: "Avanza en tu meta de 6 a 8 vasos",
+            mainText: "1 a 2 vasos de agua pura o aromática natural",
+            subText: "Recuerda evitar gaseosas, milo, malta o bebidas hidratantes.",
+            nextMealTitle: "Siguiente: Almuerzo Principal",
+            nextMealTime: "12:30 PM",
+            nextMealDesc: "100-125g Proteína magra + 1 Harina + 1/2 plato de Verdura"
+          }
+        },
+
+        almuerzo: {
+          title: "Almuerzo Principal",
+          time: "12:30 PM",
+          waTime: "12:15 PM",
+          subtitle: "Meta calórica: 550 - 600 kcal • Porciones de intercambio",
+          selectedProteinIdx: 0,
+          selectedCarbIdx: 0,
+          proteinHeader: "1. Carnes Magras o Leguminosas",
+          proteinBadge: "1 Porción",
+          proteinOptions: [
+            {
+              name: "Pollo, Res, Pescado o Cerdo magro (100 - 125g crudo)",
+              measure: "1/4 a 1/5 de libra cruda",
+              desc: "Asado, a la plancha, al horno o sudado. Evitar bagre, basa, espinazo, costilla, pezuña y alas de pollo.",
+              tag: "28g Prot"
+            },
+            {
+              name: "Combinación Vegetal: Frijol, Lenteja, Garbanzo o Arveja",
+              measure: "1 cucharón colmado + 4 cdas de arroz",
+              desc: "Si no consumes carne animal: preparar en sopa SIN agregar papa ni plátano, o en tortas sin harina de trigo.",
+              tag: "Vegetal Completa"
+            },
+            {
+              name: "1 Lata de Atún en agua",
+              measure: "1 lata escurrida (120g)",
+              desc: "Excelente opción rápida cuando estás fuera de casa. Preferir en agua y no en aceite.",
+              tag: "24g Prot"
+            },
+            {
+              name: "Chicharrón en Freidora de Aire (Ocasional)",
+              measure: "1 porción mediana sin aceite",
+              desc: "Permitido ocasionalmente en la hoja médica únicamente si se prepara en AirFryer sin grasa añadida.",
+              tag: "Gusto Ocasional"
+            }
+          ],
+          carbHeader: "2. Harinas y Carbohidratos",
+          carbRule: "Regla de oro colombiana: Escoge 1 sola opción. Si tomas crema/sopa espesa o mazamorra, ya cuenta como tu harina.",
+          carbOptions: [
+            { title: "4 cdas Arroz", sub: "Integral o parbolizado cocido", icon: "rice_bowl" },
+            { title: "1 Arepa delgada", sub: "Medio-tela de maíz", icon: "radio_button_unchecked" },
+            { title: "3 Papas criollas", sub: "Medianas cocidas o al vapor", icon: "nutrition" },
+            { title: "1 Papa común", sub: "Unidad mediana cocida", icon: "circle" },
+            { title: "1/4 Plátano", sub: "Verde o maduro asado/cocido", icon: "energy_savings_leaf" },
+            { title: "1/2 Pocillo Pasta", sub: "Medida en pocillo chocolatero", icon: "ramen_dining" },
+            { title: "1 Trozo Yuca", sub: "Cocida al vapor sin fritar", icon: "spa" },
+            { title: "5 cdas Maicitos", sub: "O 5 cdas de mazamorra", icon: "grain" }
+          ],
+          extraCard: {
+            title: "3. Verduras (1/2 Plato) + Grasa + Bebida",
+            subtitle: "Consumo diario en cantidad abundante",
+            mainText: "1/2 Plato de verdura cruda + 1/4 Aguacate (o aceite de oliva)",
+            subText: "Evitar vinagretas y aderezos. Bebida: Agua con limón o aromática (Prohibido jugos, gaseosas o claro de mazamorra).",
+            nextMealTitle: "Siguiente: Algo de la tarde",
+            nextMealTime: "04:00 PM",
+            nextMealDesc: "1 tajada de Quesito (32g) o 6 Almendras + 1 porción de Fruta"
+          }
+        },
+
+        algo: {
+          title: "Algo (Merienda Tarde)",
+          time: "04:00 PM",
+          waTime: "03:45 PM",
+          subtitle: "Combo de Queso/Sustituto + Fruta controlada",
+          selectedProteinIdx: 0,
+          selectedCarbIdx: 0,
+          proteinHeader: "1. Queso o Sustituto",
+          proteinBadge: "Elegir 1",
+          proteinOptions: [
+            {
+              name: "Quesito o Cuajada fresca (1 tajada de 32g)",
+              measure: "1 tajada de 1 cm de grosor",
+              desc: "Lácteo bajo en grasa ideal para la tarde.",
+              tag: "Proteína"
+            },
+            {
+              name: "Almendras (6 unidades) o Maní (1 cucharada)",
+              measure: "6 almendras o 1 cda de maní natural",
+              desc: "Grasa saludable y saciedad sin elevar la insulina.",
+              tag: "Fruto Seco"
+            },
+            {
+              name: "Huevo cocido (1 unidad) o Snack de queso light",
+              measure: "1 unidad",
+              desc: "Práctico y alto en proteína.",
+              tag: "Saciedad"
+            },
+            {
+              name: "Gelatina Light (Cuando quiera algo dulce)",
+              measure: "1 porción libre de azúcar",
+              desc: "Recomendación oficial de la hoja CEMDE para calmar antojo de dulce.",
+              tag: "Antojo Dulce"
+            }
+          ],
+          carbHeader: "2. Fruta del Algo (No muy madura)",
+          carbRule: "Escoge 1 opción de fruta entera (nunca en jugo).",
+          carbOptions: [
+            { title: "1 Manzana / Pera", sub: "O 1 mandarina / mango peq.", icon: "nutrition" },
+            { title: "12 Fresas / Uvas", sub: "O 12 uchuvas enteras", icon: "eco" },
+            { title: "2 Granadillas", sub: "O 2 duraznos / guayabas / ciruelas", icon: "circle" },
+            { title: "1 Tajada Papaya", sub: "O piña, melón o sandía", icon: "spa" },
+            { title: "1/2 Banano peq.", sub: "Que no esté muy maduro", icon: "energy_savings_leaf" },
+            { title: "1 Pitaya o Zapote", sub: "Unidad pequeña entera", icon: "Flare" }
+          ],
+          extraCard: {
+            title: "3. Bebida de la Tarde",
+            subtitle: "Hidratación sin azúcar",
+            mainText: "Aromática, infusión de frutas, café sin azúcar o agua",
+            subText: "Puedes usar stevia o sucralosa si deseas endulzar.",
+            nextMealTitle: "Siguiente: Comida (Cena)",
+            nextMealTime: "07:00 PM",
+            nextMealDesc: "Elegir modalidad: Cena tipo Desayuno (2 prot) o tipo Almuerzo"
+          }
+        },
+
+        cena: {
+          title: "Comida (Cena)",
+          time: "07:00 PM",
+          waTime: "06:45 PM",
+          subtitle: "2 Modalidades permitidas + Inicio de ayuno de 12h",
+          selectedProteinIdx: 0,
+          selectedCarbIdx: 0,
+          proteinHeader: "1. Proteína de la Cena (2 Modalidades)",
+          proteinBadge: "Elegir Modalidad",
+          proteinOptions: [
+            {
+              name: "Modalidad Tipo Desayuno: 2 Proteínas ligeras (Huevo + Quesito)",
+              measure: "1 Huevo + 1 tajada de Quesito/Cuajada (32g)",
+              desc: "Regla CEMDE: 'Si la cena es similar al desayuno, usar 2 proteínas'. Puedes combinar huevo, quesito o 2 tajadas de jamón pietrán.",
+              tag: "Cena Ligera"
+            },
+            {
+              name: "Modalidad Tipo Almuerzo: 100-125g Pollo, Pescado o Res magra",
+              measure: "1/4 de libra a la plancha o asado",
+              desc: "Pechuga, pescado blanco (no bagre ni basa), lomo o solomito con aliños naturales.",
+              tag: "Cena Completa"
+            },
+            {
+              name: "Modalidad Práctica: 1 Lata de Atún en agua",
+              measure: "1 lata escurrida",
+              desc: "Acompañar con tomate, cebolla, limón y cilantro.",
+              tag: "Rápida"
+            },
+            {
+              name: "2 Lonchitas Mozzarella Light + 5 Huevos de codorniz",
+              measure: "2 proteínas ligeras combinadas",
+              desc: "Equivalente a las 2 porciones de la modalidad tipo desayuno.",
+              tag: "Variedad"
+            }
+          ],
+          carbHeader: "2. Harina de la Cena (Elegir 1 Sola)",
+          carbRule: "Misma equivalencia del almuerzo: escoge solo 1 carbohidrato.",
+          carbOptions: [
+            { title: "1 Arepa delgada", sub: "Medio-tela asada", icon: "radio_button_unchecked" },
+            { title: "1 Tortilla integral", sub: "De maíz integral para fajitas", icon: "circle" },
+            { title: "4 cdas Arroz", sub: "Integral o parbolizado", icon: "rice_bowl" },
+            { title: "3 Papas criollas", sub: "Al vapor o AirFryer", icon: "nutrition" },
+            { title: "1 Cucharón Sopa", sub: "Sólido de crema de verduras", icon: "soup_kitchen" },
+            { title: "3 Tostadas arroz", sub: "O 3 galletas integrales", icon: "grain" }
+          ],
+          extraCard: {
+            title: "3. Verduras y Cierre de Ventana (Ayuno 12h)",
+            subtitle: "Verdura opcional cruda sin aderezos",
+            mainText: "Ensalada fresca con limón + Aromática digestiva",
+            subText: "Recuerda terminar de cenar al menos 12 horas antes de tu desayuno de mañana.",
+            nextMealTitle: "Siguiente: Ayuno Nocturno 12 Horas",
+            nextMealTime: "07:30 PM - 07:30 AM",
+            nextMealDesc: "Solo agua pura o aromática sin calorías durante la noche"
+          }
+        }
+      };
+
+      // ==========================================
+      // 2. RECOMMENDED MEAL IDEAS & MEAT RECIPES
+      // ==========================================
+      const RECOMMENDED_COMBOS = [
+        {
+          id: "combo-1",
+          mealKey: "almuerzo",
+          category: "almuerzo",
+          badge: "Almuerzo Carne Blanca",
+          title: "Pechuga al Limón y Finas Hierbas",
+          meatTip: "125g de pechuga a la plancha adobada con ajo, limón, orégano y cilantro (cero cubos de caldo).",
+          sides: "3 papas criollas al vapor + 1/2 plato de lechuga, tomate y pepino + 1/4 de aguacate.",
+          proteinIdx: 0,
+          carbIdx: 2
+        },
+        {
+          id: "combo-2",
+          mealKey: "almuerzo",
+          category: "almuerzo",
+          badge: "Almuerzo Típico Vegetal",
+          title: "Cazuela de Frijol o Lenteja CEMDE",
+          meatTip: "Reemplazo oficial de carne: 1 cucharón colmado de frijoles o lentejas cocidos SIN papa ni plátano.",
+          sides: "4 cucharadas soperas de arroz integral + 1/4 de aguacate + ensalada fresca de repollo y tomate.",
+          proteinIdx: 1,
+          carbIdx: 0
+        },
+        {
+          id: "combo-3",
+          mealKey: "almuerzo",
+          category: "almuerzo",
+          badge: "Gusto Permitido Hoja Médica",
+          title: "Chicharrón Crocante en AirFryer",
+          meatTip: "1 porción de chicharrón hecho en freidora de aire (sin aceite añadido) como permite tu hoja ocasionalmente.",
+          sides: "1 arepa delgada medio-tela + medio plato abundante de tomate chonto con limón + agua con limón.",
+          proteinIdx: 3,
+          carbIdx: 1
+        },
+        {
+          id: "combo-4",
+          mealKey: "cena",
+          category: "cena",
+          badge: "Cena Ligera (2 Proteínas)",
+          title: "Pericos Antioqueños con Quesito",
+          meatTip: "Usa la regla de 'Cena similar al desayuno': 1 huevo revuelto con tomate y cebolla + 1 tajada de quesito (32g).",
+          sides: "1 arepa delgada (medio-tela) + aromática de cidrón o hierbabuena.",
+          proteinIdx: 0,
+          carbIdx: 0
+        },
+        {
+          id: "combo-5",
+          mealKey: "cena",
+          category: "cena",
+          badge: "Cena Rápida Proteica",
+          title: "Fajita Integral de Atún o Pollo",
+          meatTip: "1 lata de atún en agua escurrida (o 120g de pollo desmechado) con limón, cebolla, tomate y cilantro.",
+          sides: "1 tortilla de maíz integral + lechuga fresca + 1/4 de aguacate.",
+          proteinIdx: 2,
+          carbIdx: 1
+        },
+        {
+          id: "combo-6",
+          mealKey: "algo",
+          category: "algo",
+          badge: "Merienda Control Ansiedad",
+          title: "Tabla de Quesito y Fresas Frescas",
+          meatTip: "1 tajada de quesito o cuajada de 1 cm de grosor (32g).",
+          sides: "12 fresas enteras lavadas + café o aromática endulzada con stevia.",
+          proteinIdx: 0,
+          carbIdx: 1
+        }
+      ];
+
+      // ==========================================
+      // 3. SEMÁFORO DATA (PREFERIR VS EVITAR)
+      // ==========================================
+      const SEMAFORO_DATA = [
+        {
+          category: "Carnes",
+          title: "Carnes, Aves, Pescados y Leguminosas",
+          preferir: [
+            "Carnes pulpas magras: pollo sin piel, pavo, res magra (solomito, lomo), cerdo magro (100-125g)",
+            "Carnes frías bajas en grasa de pollo o pavo (ej. Jamón Pietrán)",
+            "Atún en lata en agua (1 unidad)",
+            "Frijol, lentejas, garbanzos, arvejas o blanquillos (1 cucharón colmado + 4 cdas arroz)",
+            "Chicharrón ocasionalmente preparado en freidora de aire (AirFryer)"
+          ],
+          evitar: [
+            "Carnes grasosas: chicharrón frito, piel de pollo, costilla, espinazo, pezuña, alas de pollo",
+            "Pescados grasos como bagre o basa, y pescado frito/apanado",
+            "Vísceras y menudencias",
+            "Embutidos: salchichón, mortadela, carnes maduradas (salami, peperoni, cabano)"
+          ]
+        },
+        {
+          category: "Lácteos",
+          title: "Lácteos y Quesos",
+          preferir: [
+            "Lácteos semidescremados sin azúcar añadida",
+            "Quesito, cuajada fresca (1 tajada de 1 cm / 32g)",
+            "Queso mozzarella light / bajo en grasa (Finesse, Colanta)",
+            "Snack de queso bajo en grasa"
+          ],
+          evitar: [
+            "Lácteos enteros (leche entera, yogurt azucarado, kumis)",
+            "Queso mozzarella entero tradicional y queso amarillo / fundido",
+            "Crema de leche, crema agria y queso crema"
+          ]
+        },
+        {
+          category: "Bebidas",
+          title: "Bebidas y Endulzantes",
+          preferir: [
+            "Agua pura (6 a 8 vasos al día) y agua saborizada natural (con limón, hierbabuena o fruta picada sin licuar)",
+            "Infusiones y aromáticas naturales sin azúcar",
+            "Endulzantes no calóricos opcionales: stevia o sucralosa",
+            "Ocasionalmente Clight o bebidas sin calorías y gelatina light"
+          ],
+          evitar: [
+            "Azúcar blanca/morena, panela y miel",
+            "Jugos de fruta licuados (incluso naturales), claro de mazamorra y guandolo",
+            "Gaseosas, milo, malta, bebidas hidratantes, energizantes y licor"
+          ]
+        },
+        {
+          category: "Cocción",
+          title: "Métodos de Cocción y Grasas",
+          preferir: [
+            "Preparaciones cocidas, asadas, horneadas, sudadas, al vapor o a la plancha",
+            "Aguacate (1/4 de unidad en el almuerzo)",
+            "Aceites vegetales en poca cantidad: oliva, girasol, canola, maíz o soya",
+            "Frutos secos medidos: 6 almendras o 1 cda de maní"
+          ],
+          evitar: [
+            "Preparaciones fritas, apanadas o gratinadas",
+            "Grasas saturadas: mantequilla, margarina, manteca, salsas comerciales y vinagretas en ensaladas"
+          ]
+        },
+        {
+          category: "Aliños",
+          title: "Aliños, Condimentos y Panadería",
+          preferir: [
+            "Hierbas y aliños naturales: ajo, limón, cebolla, tomate, perejil, cilantro, jengibre, orégano, vinagre, balsámico",
+            "Parva integral y productos horneados (pan integral, galletas integrales, arepa delgada)"
+          ],
+          evitar: [
+            "Aderezos en cubo o desmenuzados (caldos tipo Maggi/Ricostilla), sustancia de hueso, gordos o pezuña",
+            "Salero en la mesa (usar sal moderada solo al cocinar)",
+            "Productos de panadería fritos (buñuelos, empanadas), rellenos de queso o de pasta hojaldrada (pastel de pollo, croissant)"
+          ]
+        }
+      ];
+
+      // ==========================================
+      // 4. STATE & DOM ELEMENTS
+      // ==========================================
+      let currentMealKey = "almuerzo";
+      let waterCount = parseInt(localStorage.getItem("cemde_water") || "4", 10);
+      let webhookUrl = localStorage.getItem("cemde_webhook") || "";
+
+      const mealCardsContainer = document.getElementById("meal-cards-container");
+      const mealTitleEl = document.getElementById("meal-title");
+      const mealTimeBadgeEl = document.getElementById("meal-time-badge");
+      const mealSubtitleInfoEl = document.getElementById("meal-subtitle-info");
+      const waTimeTagEl = document.getElementById("wa-time-tag");
+      const summaryBarTitleEl = document.getElementById("Summary-bar-title");
+      const summaryBarSubtitleEl = document.getElementById("summary-bar-subtitle");
+      const toastModal = document.getElementById("toast-modal");
+      const toastText = document.getElementById("toast-text");
+
+      function showToast(msg) {
+        if (!toastModal || !toastText) return;
+        toastText.textContent = msg;
+        toastModal.classList.remove("opacity-0", "pointer-events-none");
+        toastModal.classList.add("opacity-100");
+        setTimeout(() => {
+          toastModal.classList.remove("opacity-100");
+          toastModal.classList.add("opacity-0", "pointer-events-none");
+        }, 2800);
+      }
+
+      // ==========================================
+      // 5. RENDER MEAL VIEW (TAB 1: EQUIVALENCIAS)
+      // ==========================================
+      function renderMeal(mealKey) {
+        currentMealKey = mealKey;
+        const meal = MEALS_DATA[mealKey];
+        if (!meal) return;
+
+        // Update top meal pills styling
+        document.querySelectorAll(".meal-pill").forEach(btn => {
+          const isCurrent = btn.getAttribute("data-meal") === mealKey;
+          if (isCurrent) {
+            btn.className = "meal-pill flex-shrink-0 flex items-center gap-1.5 px-space-md py-1.5 rounded-full bg-primary text-on-primary font-title-sm text-title-sm shadow-[0_2px_8px_rgba(0,105,72,0.25)] transition-all";
+            btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span>${btn.textContent.trim()}`;
+          } else {
+            btn.className = "meal-pill flex-shrink-0 px-space-md py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-body-sm text-body-sm transition-all hover:bg-surface-container";
+            btn.innerHTML = btn.textContent.trim();
+          }
+        });
+
+        // Update header text
+        mealTitleEl.textContent = meal.title;
+        mealTimeBadgeEl.textContent = meal.time;
+        mealSubtitleInfoEl.textContent = meal.subtitle;
+        waTimeTagEl.textContent = meal.waTime;
+
+        const activeProt = meal.proteinOptions[meal.selectedProteinIdx];
+        const activeCarb = meal.carbOptions[meal.selectedCarbIdx];
+
+        // Update bottom floating bar
+        summaryBarTitleEl.textContent = `${meal.title} (${meal.time})`;
+        summaryBarSubtitleEl.textContent = `${activeProt.name.split("(")[0].trim()} + ${activeCarb.title}`;
+
+        // Build cards HTML
+        const radioOptionsHtml = meal.proteinOptions.map((opt, idx) => `
+          <label class="p-space-sm rounded-lg ${idx === meal.selectedProteinIdx ? 'bg-secondary-container/30 border border-primary/30' : 'bg-surface-container-low'} flex items-center justify-between gap-space-sm cursor-pointer hover:bg-surface-container transition-colors">
+            <div class="flex items-center gap-space-sm">
+              <input class="protein-radio text-primary focus:ring-primary w-4 h-4 accent-[#006948]" name="protein-swap" type="radio" value="${idx}" ${idx === meal.selectedProteinIdx ? 'checked' : ''}/>
+              <div class="flex flex-col">
+                <span class="font-title-sm text-title-sm text-on-surface">${opt.name}</span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">${opt.measure} · ${opt.desc}</span>
+              </div>
+            </div>
+            <span class="font-label-badge text-label-badge text-on-surface-variant flex-shrink-0">${opt.tag}</span>
+          </label>
+        `).join("");
+
+        const carbChipsHtml = meal.carbOptions.map((c, idx) => {
+          const isSelected = idx === meal.selectedCarbIdx;
+          return `
+            <button data-carb-idx="${idx}" class="carb-chip text-left p-space-sm rounded-xl ${isSelected ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-container-low text-on-surface hover:bg-surface-container'} flex flex-col justify-between transition-all" type="button">
+              <div class="flex items-center justify-between w-full mb-1">
+                <span class="material-symbols-outlined text-[18px] ${isSelected ? '' : 'text-on-surface-variant'}">${c.icon}</span>
+                <span class="material-symbols-outlined text-[16px] ${isSelected ? '' : 'hidden'}">check_circle</span>
+              </div>
+              <span class="font-title-sm text-title-sm leading-tight">${c.title}</span>
+              <span class="font-body-sm text-body-sm ${isSelected ? 'opacity-90' : 'text-on-surface-variant'}">${c.sub}</span>
+            </button>
+          `;
+        }).join("");
+
+        mealCardsContainer.innerHTML = `
+          <!-- Card 1: Proteína / Grupo Principal -->
+          <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-space-sm">
+                <div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]">lunch_dining</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <h2 class="font-title-md text-title-md text-on-surface">${meal.proteinHeader}</h2>
+                    <span class="px-2 py-0.5 rounded bg-primary-fixed/30 text-on-primary-fixed-variant font-label-badge text-label-badge">${meal.proteinBadge}</span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Porción clínica intercambiables</p>
+                </div>
+              </div>
+              <span class="font-label-badge text-label-badge px-2 py-1 rounded bg-secondary-fixed/50 text-on-secondary-fixed flex-shrink-0">${activeProt.tag}</span>
+            </div>
+
+            <!-- Selected Primary Option -->
+            <div class="p-space-md rounded-lg bg-secondary-container/20 flex flex-col gap-1 shadow-sm border border-primary/10">
+              <div class="flex items-center justify-between">
+                <span class="font-label-badge text-label-badge text-secondary font-bold uppercase tracking-wider flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                  Opción activa hoy
+                </span>
+                <span class="font-body-sm text-body-sm text-on-surface-variant">${activeProt.measure}</span>
+              </div>
+              <p class="font-title-sm text-title-sm text-on-surface mt-0.5">${activeProt.name}</p>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">${activeProt.desc}</p>
+            </div>
+
+            <!-- Accordion Swap Selector -->
+            <div>
+              <button class="w-full flex items-center justify-between py-2 px-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container transition-colors text-primary font-title-sm text-title-sm" id="toggle-carnes-btn" type="button">
+                <span class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+                  Cambiar por otra opción equivalente (${meal.proteinOptions.length} opciones)
+                </span>
+                <span class="material-symbols-outlined text-[20px] transition-transform" id="carnes-chevron">expand_more</span>
+              </button>
+              <div class="hidden flex-col gap-space-xs mt-space-xs pt-space-xs" id="carnes-options-drawer">
+                ${radioOptionsHtml}
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Harinas / Complemento -->
+          <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+            <div class="flex items-start justify-between">
+              <div class="flex items-center gap-space-sm">
+                <div class="w-9 h-9 rounded-lg bg-tertiary-fixed/40 flex items-center justify-center text-tertiary">
+                  <span class="material-symbols-outlined text-[20px]">grain</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <h2 class="font-title-md text-title-md text-on-surface">${meal.carbHeader}</h2>
+                    <span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-label-badge text-label-badge">Elegir 1 Sola</span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Toca la opción que vas a consumir hoy</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-space-sm rounded-lg bg-tertiary-fixed/30 flex items-start gap-space-sm">
+              <span class="material-symbols-outlined text-[18px] text-tertiary mt-0.5">lightbulb</span>
+              <p class="font-body-sm text-body-sm text-on-tertiary-fixed leading-relaxed">${meal.carbRule}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-space-sm">
+              ${carbChipsHtml}
+            </div>
+          </div>
+
+          <!-- Card 3: Verduras, Grasa & Bebida -->
+          <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+            <div class="flex items-center gap-space-sm">
+              <div class="w-9 h-9 rounded-lg bg-secondary-fixed/50 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[20px]">eco</span>
+              </div>
+              <div>
+                <h2 class="font-title-md text-title-md text-on-surface">${meal.extraCard.title}</h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${meal.extraCard.subtitle}</p>
+              </div>
+            </div>
+            <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-1">
+              <span class="font-title-sm text-title-sm text-on-surface">${meal.extraCard.mainText}</span>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">${meal.extraCard.subText}</p>
+            </div>
+          </div>
+
+          <!-- Sneak Peek Next Meal -->
+          <div class="bg-surface-container-low p-space-lg rounded-xl shadow-sm flex flex-col gap-space-sm">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+                <span class="font-title-sm text-title-sm text-on-surface">${meal.extraCard.nextMealTitle}</span>
+              </div>
+              <span class="font-label-badge text-label-badge text-on-surface-variant font-medium">${meal.extraCard.nextMealTime}</span>
+            </div>
+            <div class="p-space-sm rounded-lg bg-surface-container-lowest flex items-center justify-between">
+              <span class="font-body-sm text-body-sm text-on-surface">${meal.extraCard.nextMealDesc}</span>
+              <span class="material-symbols-outlined text-[18px] text-primary">chevron_right</span>
+            </div>
+          </div>
+        `;
+
+        // Wire dynamic listeners inside the newly rendered cards
+        const toggleCarnesBtn = document.getElementById("toggle-carnes-btn");
+        const carnesDrawer = document.getElementById("carnes-options-drawer");
+        const carnesChevron = document.getElementById("carnes-chevron");
+
+        toggleCarnesBtn?.addEventListener("click", () => {
+          const isHidden = carnesDrawer.classList.contains("hidden");
+          if (isHidden) {
+            carnesDrawer.classList.remove("hidden");
+            carnesDrawer.classList.add("flex");
+            carnesChevron.classList.add("rotate-180");
+          } else {
+            carnesDrawer.classList.add("hidden");
+            carnesDrawer.classList.remove("flex");
+            carnesChevron.classList.remove("rotate-180");
+          }
+        });
+
+        document.querySelectorAll(".protein-radio").forEach(radio => {
+          radio.addEventListener("change", (e) => {
+            meal.selectedProteinIdx = parseInt(e.target.value, 10);
+            renderMeal(mealKey);
+            showToast("Proteína actualizada en tu plato");
+          });
+        });
+
+        document.querySelectorAll(".carb-chip").forEach(chip => {
+          chip.addEventListener("click", () => {
+            meal.selectedCarbIdx = parseInt(chip.getAttribute("data-carb-idx"), 10);
+            renderMeal(mealKey);
+          });
+        });
+      }
+
+      // Wire top meal pills
+      document.querySelectorAll(".meal-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          renderMeal(btn.getAttribute("data-meal"));
+        });
+      });
+
+      // ==========================================
+      // 6. RENDER RECOMMENDED MENUS & SEMÁFORO (TAB 2)
+      // ==========================================
+      function renderRecommendedCombos(filter = "all") {
+        const listEl = document.getElementById("recommended-combos-list");
+        if (!listEl) return;
+
+        const filtered = filter === "all"
+          ? RECOMMENDED_COMBOS
+          : RECOMMENDED_COMBOS.filter(c => c.category === filter);
+
+        listEl.innerHTML = filtered.map(c => `
+          <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-sm border border-outline-variant/25">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">${c.badge}</span>
+              <button data-apply-combo="${c.id}" class="apply-combo-btn px-3 py-1 rounded-lg bg-primary text-on-primary font-label-badge text-label-badge flex items-center gap-1 shadow-sm active:scale-95 transition-transform" type="button">
+                <span class="material-symbols-outlined text-[14px]">check</span>
+                Usar hoy
+              </button>
+            </div>
+            <h3 class="font-title-md text-title-md text-on-surface">${c.title}</h3>
+            <div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-1">
+              <span class="font-body-sm text-body-sm text-on-surface"><strong>🥩 Proteína:</strong> ${c.meatTip}</span>
+              <span class="font-body-sm text-body-sm text-on-surface-variant"><strong>🥗 Acompañamiento:</strong> ${c.sides}</span>
+            </div>
+          </div>
+        `).join("");
+
+        document.querySelectorAll(".apply-combo-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const comboId = btn.getAttribute("data-apply-combo");
+            const combo = RECOMMENDED_COMBOS.find(x => x.id === comboId);
+            if (!combo) return;
+            MEALS_DATA[combo.mealKey].selectedProteinIdx = combo.proteinIdx;
+            MEALS_DATA[combo.mealKey].selectedCarbIdx = combo.carbIdx;
+            switchBottomTab("equivalencias");
+            renderMeal(combo.mealKey);
+            showToast(`Menú "${combo.title}" cargado en ${MEALS_DATA[combo.mealKey].title}`);
+          });
+        });
+      }
+
+      document.querySelectorAll(".combo-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".combo-filter-btn").forEach(b => {
+            b.className = "combo-filter-btn px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge";
+          });
+          btn.className = "combo-filter-btn px-3 py-1 rounded-full bg-primary text-on-primary font-label-badge text-label-badge";
+          renderRecommendedCombos(btn.getAttribute("data-combo-filter"));
+        });
+      });
+
+      // Semáforo Search & Category Filter
+      let currentSemCategory = "all";
+      function renderSemaforo() {
+        const resultsEl = document.getElementById("semaforo-results");
+        const query = (document.getElementById("food-search-input")?.value || "").toLowerCase().trim();
+        if (!resultsEl) return;
+
+        const filtered = SEMAFORO_DATA.filter(group => {
+          if (currentSemCategory !== "all" && group.category !== currentSemCategory) return false;
+          if (!query) return true;
+          const inTitle = group.title.toLowerCase().includes(query);
+          const inPref = group.preferir.some(i => i.toLowerCase().includes(query));
+          const inEvit = group.evitar.some(i => i.toLowerCase().includes(query));
+          return inTitle || inPref || inEvit;
+        });
+
+        if (filtered.length === 0) {
+          resultsEl.innerHTML = `<div class="p-space-lg rounded-xl bg-surface-container-low text-center font-body-md text-on-surface-variant">No se encontraron alimentos con "${query}".</div>`;
+          return;
+        }
+
+        resultsEl.innerHTML = filtered.map(group => `
+          <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+            <h3 class="font-title-md text-title-md text-on-surface border-b border-outline-variant/30 pb-2">${group.title}</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+              <!-- PREFERIR -->
+              <div class="p-space-md rounded-xl bg-secondary-container/25 flex flex-col gap-2">
+                <div class="flex items-center gap-1.5 text-secondary font-label-badge text-label-badge uppercase">
+                  <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                  PREFERIR (Permitidos)
+                </div>
+                <ul class="flex flex-col gap-1.5 font-body-sm text-body-sm text-on-surface list-disc pl-4">
+                  ${group.preferir.map(item => `<li>${item}</li>`).join("")}
+                </ul>
+              </div>
+              <!-- EVITAR -->
+              <div class="p-space-md rounded-xl bg-error-container/40 flex flex-col gap-2">
+                <div class="flex items-center gap-1.5 text-error font-label-badge text-label-badge uppercase">
+                  <span class="material-symbols-outlined text-[18px]">block</span>
+                  EVITAR (Restringidos)
+                </div>
+                <ul class="flex flex-col gap-1.5 font-body-sm text-body-sm text-on-error-container list-disc pl-4">
+                  ${group.evitar.map(item => `<li>${item}</li>`).join("")}
+                </ul>
+              </div>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      document.getElementById("food-search-input")?.addEventListener("input", renderSemaforo);
+      document.querySelectorAll(".sem-cat-pill").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".sem-cat-pill").forEach(b => {
+            b.className = "sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-badge text-label-badge";
+          });
+          btn.className = "sem-cat-pill flex-shrink-0 px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-badge text-label-badge";
+          currentSemCategory = btn.getAttribute("data-cat");
+          renderSemaforo();
+        });
+      });
+
+      // Subtabs inside Tab 2
+      const subtabMenusBtn = document.getElementById("subtab-menus-btn");
+      const subtabSemaforoBtn = document.getElementById("subtab-semaforo-btn");
+      const subviewMenus = document.getElementById("subview-menus");
+      const subviewSemaforo = document.getElementById("subview-semaforo");
+
+      subtabMenusBtn?.addEventListener("click", () => {
+        subtabMenusBtn.className = "py-2 px-3 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm shadow-sm transition-all flex items-center justify-center gap-1.5";
+        subtabSemaforoBtn.className = "py-2 px-3 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container transition-all flex items-center justify-center gap-1.5";
+        subviewMenus.classList.remove("hidden");
+        subviewMenus.classList.add("flex");
+        subviewSemaforo.classList.add("hidden");
+        subviewSemaforo.classList.remove("flex");
+      });
+
+      subtabSemaforoBtn?.addEventListener("click", () => {
+        subtabSemaforoBtn.className = "py-2 px-3 rounded-lg bg-primary text-on-primary font-title-sm text-title-sm shadow-sm transition-all flex items-center justify-center gap-1.5";
+        subtabMenusBtn.className = "py-2 px-3 rounded-lg text-on-surface-variant font-title-sm text-title-sm hover:bg-surface-container transition-all flex items-center justify-center gap-1.5";
+        subviewSemaforo.classList.remove("hidden");
+        subviewSemaforo.classList.add("flex");
+        subviewMenus.classList.add("hidden");
+        subviewMenus.classList.remove("flex");
+      });
+
+      // ==========================================
+      // 7. NOTIFICATIONS, WHATSAPP & FAQ (TAB 3)
+      // ==========================================
+      function playNotificationBeep() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.12); // A5
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.4);
+        } catch (e) {
+          // AudioContext blocked or unsupported
+        }
+      }
+
+      function triggerMealAlert() {
+        const meal = MEALS_DATA[currentMealKey];
+        const prot = meal.proteinOptions[meal.selectedProteinIdx].name;
+        const carb = meal.carbOptions[meal.selectedCarbIdx].title;
+        const bodyText = `Hora de tu ${meal.title} (${meal.time}): ${prot} + ${carb}. Recuerda tu vaso de agua.`;
+
+        playNotificationBeep();
+        showToast(`🔔 Alerta: ${meal.title} — ${carb}`);
+
+        if ("Notification" in window) {
+          if (Notification.permission === "granted") {
+            new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
+          } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(perm => {
+              if (perm === "granted") {
+                new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
+              }
+            });
+          }
+        }
+      }
+
+      document.getElementById("test-app-notification-btn")?.addEventListener("click", triggerMealAlert);
+      document.getElementById("header-bell-btn")?.addEventListener("click", triggerMealAlert);
+
+      // Send summary to WhatsApp
+      document.getElementById("send-wa-summary-btn")?.addEventListener("click", () => {
+        const rawPhone = (document.getElementById("wa-phone-input")?.value || "").replace(/\D/g, "");
+        const lines = [
+          "🌿 *MI PLAN NUTRICIONAL CEMDE DE HOY*",
+          `💧 Hidratación: ${waterCount}/8 vasos`,
+          ""
+        ];
+        Object.keys(MEALS_DATA).forEach(k => {
+          const m = MEALS_DATA[k];
+          const p = m.proteinOptions[m.selectedProteinIdx].name;
+          const c = m.carbOptions[m.selectedCarbIdx].title;
+          lines.push(`⏰ *${m.title} (${m.time}):* ${p} + ${c}`);
+        });
+        const url = `https://wa.me/${rawPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+      });
+
+      // Save Webhook
+      const webhookInput = document.getElementById("webhook-url-input");
+      if (webhookInput && webhookUrl) webhookInput.value = webhookUrl;
+      document.getElementById("save-webhook-btn")?.addEventListener("click", () => {
+        webhookUrl = (webhookInput?.value || "").trim();
+        localStorage.setItem("cemde_webhook", webhookUrl);
+        showToast("Webhook guardado para sincronización automática");
+      });
+
+      // FAQ Quick Answers
+      const FAQ_ANSWERS = {
+        sancocho: "🍲 <strong>Regla de Sopas y Granos CEMDE:</strong> Si almuerzas frijoles, lentejas o garbanzos (1 cucharón colmado), mézclalos con 4 cdas de arroz para reemplazar la carne, pero <strong>la sopa NO debe llevar papa ni plátano</strong>. Si tomas crema de verduras espesa (1 cucharón), esa ya cuenta como tu única harina del plato.",
+        chicharron: "🥓 <strong>Regla del Chicharrón:</strong> En la hoja 1 el chicharrón frito está en 'Evitar', pero en la hoja 2 el médico anotó la excepción: <strong>puedes comer chicharrón ocasionalmente siempre que lo prepares en Freidora de Aire (AirFryer)</strong> sin agregar aceite.",
+        cena: "🌙 <strong>Opciones de Cena sin Carne Pesada:</strong> Tu hoja permite cenar 'similar al desayuno usando 2 proteínas ligeras'. Ejemplo: 1 huevo revuelto + 1 tajada de quesito (32g), o 2 tajadas de jamón pietrán bajo en grasa + 1 arepa delgada.",
+        jugos: "🍹 <strong>Cero Jugos ni Claro:</strong> Están restringidos los jugos (incluso naturales), gaseosas, claro de mazamorra y guandolo. Toma agua con limón, agua saborizada con fruta picada (sin licuar), aromáticas o Clight ocasional.",
+        alinos: "🧄 <strong>Aliños Naturales Permitidos:</strong> Usa ajo, limón, cebolla, tomate, perejil, cilantro, jengibre, orégano y vinagre balsámico. Evita por completo los caldos en cubo o desmenuzados y la sustancia de hueso."
+      };
+
+      document.querySelectorAll(".faq-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const key = chip.getAttribute("data-q");
+          const box = document.getElementById("faq-answer-box");
+          if (box && FAQ_ANSWERS[key]) {
+            box.innerHTML = FAQ_ANSWERS[key];
+          }
+        });
+      });
+
+      // ==========================================
+      // 8. WATER TRACKER & 12H FAST (TAB 4)
+      // ==========================================
+      function renderWaterTracker() {
+        const grid = document.getElementById("water-glasses-grid");
+        const badge = document.getElementById("water-badge-status");
+        const headerCount = document.getElementById("header-water-count");
+        if (badge) badge.textContent = `${waterCount} / 8 vasos`;
+        if (headerCount) headerCount.textContent = `${waterCount}/8`;
+        if (!grid) return;
+
+        let html = "";
+        for (let i = 1; i <= 8; i++) {
+          const filled = i <= waterCount;
+          html += `
+            <button data-glass="${i}" class="water-glass-btn p-3 rounded-xl border ${filled ? 'bg-primary text-on-primary border-primary shadow-sm' : 'bg-surface-container-low text-on-surface-variant border-outline-variant/40'} flex flex-col items-center justify-center gap-1 transition-all" type="button">
+              <span class="material-symbols-outlined text-[24px]">${filled ? 'water_full' : 'water_drop'}</span>
+              <span class="font-label-badge text-label-badge">Vaso ${i}</span>
+            </button>
+          `;
+        }
+        grid.innerHTML = html;
+
+        document.querySelectorAll(".water-glass-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            waterCount = parseInt(btn.getAttribute("data-glass"), 10);
+            localStorage.setItem("cemde_water", String(waterCount));
+            renderWaterTracker();
+            showToast(`Hidratación registrada: ${waterCount} de 8 vasos`);
+          });
+        });
+      }
+
+      document.getElementById("header-water-pill")?.addEventListener("click", () => {
+        switchBottomTab("mi-perfil");
+      });
+
+      // 12-Hour Overnight Fast Calculator
+      const lastMealInput = document.getElementById("last-meal-time-input");
+      const nextBreakfastEl = document.getElementById("next-breakfast-time");
+      function updateFastCalculator() {
+        if (!lastMealInput || !nextBreakfastEl) return;
+        const [hh, mm] = (lastMealInput.value || "19:30").split(":").map(Number);
+        const breakfastHour24 = (hh + 12) % 24;
+        const period = breakfastHour24 >= 12 ? "PM" : "AM";
+        const hour12 = breakfastHour24 % 12 === 0 ? 12 : breakfastHour24 % 12;
+        const formatted = `${String(hour12).padStart(2, "0")}:${String(mm).padStart(2, "0")} ${period}`;
+        nextBreakfastEl.textContent = formatted;
+      }
+      lastMealInput?.addEventListener("change", updateFastCalculator);
+
+      // ==========================================
+      // 9. BOTTOM NAVIGATION & CONFIRM ACTION
+      // ==========================================
+      const views = {
+        "equivalencias": document.getElementById("view-equivalencias"),
+        "mi-plan": document.getElementById("view-mi-plan"),
+        "nutricionista": document.getElementById("view-nutricionista"),
+        "mi-perfil": document.getElementById("view-mi-perfil")
+      };
+      const subtitles = {
+        "equivalencias": "Equivalencias y Porciones",
+        "mi-plan": "Ideas de Carnes y Semáforo CEMDE",
+        "nutricionista": "Recordatorios App y Bot WhatsApp",
+        "mi-perfil": "Control de Agua y Ayuno 12h"
+      };
+      const floatingConfirmBar = document.getElementById("floating-confirm-bar");
+      const headerSubtitle = document.getElementById("header-subtitle");
+
+      function switchBottomTab(tabKey) {
+        Object.keys(views).forEach(k => {
+          if (k === tabKey) {
+            views[k]?.classList.remove("hidden");
+            views[k]?.classList.add("flex");
+          } else {
+            views[k]?.classList.add("hidden");
+            views[k]?.classList.remove("flex");
+          }
+        });
+
+        if (headerSubtitle && subtitles[tabKey]) {
+          headerSubtitle.textContent = subtitles[tabKey];
+        }
+
+        if (floatingConfirmBar) {
+          floatingConfirmBar.style.display = tabKey === "equivalencias" ? "block" : "none";
+        }
+
+        document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+          const isAct = btn.getAttribute("data-nav") === tabKey;
+          btn.className = isAct
+            ? "nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs transition-colors text-primary font-title-sm"
+            : "nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors";
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      document.querySelectorAll(".nav-tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          switchBottomTab(btn.getAttribute("data-nav"));
+        });
+      });
+
+      // WhatsApp toggle switch
+      const waBtn = document.getElementById("wa-toggle-btn");
+      const waKnob = document.getElementById("wa-toggle-knob");
+      let waActive = true;
+      waBtn?.addEventListener("click", () => {
+        waActive = !waActive;
+        if (waActive) {
+          waBtn.classList.remove("bg-surface-variant");
+          waBtn.classList.add("bg-primary");
+          waKnob.classList.add("translate-x-5");
+          showToast("Recordatorio automático activado");
+        } else {
+          waBtn.classList.remove("bg-primary");
+          waBtn.classList.add("bg-surface-variant");
+          waKnob.classList.remove("translate-x-5");
+          showToast("Recordatorio en pausa");
+        }
+      });
+
+      // Confirm Button (Saves locally + sends to Webhook if configured)
+      document.getElementById("confirm-meal-btn")?.addEventListener("click", async () => {
+        const meal = MEALS_DATA[currentMealKey];
+        const prot = meal.proteinOptions[meal.selectedProteinIdx];
+        const carb = meal.carbOptions[meal.selectedCarbIdx];
+
+        if (webhookUrl) {
+          try {
+            await fetch(webhookUrl, {
