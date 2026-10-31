@@ -177,6 +177,10 @@
         </button>
       </div>
 
+      <p class="mt-2 px-1 font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Plan de hoy: elige una comida arriba, ajusta las opciones equivalentes y guarda tu selección. Puedes volver a cambiarla durante el día.
+      </p>
+
       <!-- Meal Prescription Header -->
       <div class="mt-space-md flex flex-col gap-space-xs">
         <div class="flex items-center justify-between">
@@ -514,11 +518,12 @@
             <span id="Summary-bar-title" class="font-title-sm text-title-sm text-white truncate">Almuerzo Configurado</span>
           </div>
           <span id="summary-bar-subtitle" class="font-body-sm text-body-sm text-inverse-on-surface/80 truncate">Pollo/Res Magro + 4 cdas Arroz</span>
+          <span id="confirm-meal-status" class="font-label-badge text-label-badge text-inverse-on-surface/70">Aún no guardada</span>
         </div>
         <div class="flex items-center gap-space-xs flex-shrink-0">
-          <button class="px-space-md py-2.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="confirm-meal-btn" type="button">
-            <span class="material-symbols-outlined text-[18px]">check_circle</span>
-            Confirmar
+          <button class="px-space-md py-2.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform disabled:opacity-70 disabled:cursor-default" id="confirm-meal-btn" type="button" aria-label="Guardar esta comida para hoy">
+            <span class="material-symbols-outlined text-[18px]" id="confirm-meal-icon">save</span>
+            <span id="confirm-meal-label">Guardar comida</span>
           </button>
         </div>
       </div>
@@ -1112,6 +1117,7 @@
         // Update bottom floating bar
         summaryBarTitleEl.textContent = `${meal.title} (${meal.time})`;
         summaryBarSubtitleEl.textContent = `${activeProt.name.split("(")[0].trim()} + ${activeCarb.title}`;
+        syncConfirmButton();
 
         // Build cards HTML
         const radioOptionsHtml = meal.proteinOptions.map((opt, idx) => `
@@ -1683,6 +1689,43 @@
 
       // Confirm Button: save locally first, then notify the configured webhook.
       const confirmMealButton = document.getElementById("confirm-meal-btn");
+      const confirmMealLabel = document.getElementById("confirm-meal-label");
+      const confirmMealIcon = document.getElementById("confirm-meal-icon");
+      const confirmMealStatus = document.getElementById("confirm-meal-status");
+
+      function getSavedMealConfirmation(mealKey) {
+        try {
+          const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+          return records[mealKey] || null;
+        } catch (error) {
+          console.warn("No se pudo consultar la confirmación del día.", error);
+          return null;
+        }
+      }
+
+      function syncConfirmButton() {
+        const meal = MEALS_DATA[currentMealKey];
+        if (!meal || !confirmMealButton) return;
+
+        const saved = getSavedMealConfirmation(currentMealKey);
+        const protein = meal.proteinOptions[meal.selectedProteinIdx];
+        const carbohydrate = meal.carbOptions[meal.selectedCarbIdx];
+        const isSameAsSaved = Boolean(
+          saved &&
+          saved.protein === protein.name &&
+          saved.carbohydrate === carbohydrate.title
+        );
+
+        confirmMealButton.disabled = isSameAsSaved;
+        confirmMealLabel.textContent = isSameAsSaved
+          ? "Guardada hoy"
+          : (saved ? "Guardar cambios" : "Guardar comida");
+        confirmMealIcon.textContent = isSameAsSaved ? "check_circle" : (saved ? "edit" : "save");
+        confirmMealStatus.textContent = isSameAsSaved
+          ? "Esta comida ya está guardada hoy"
+          : (saved ? "Tienes cambios sin guardar" : "Aún no guardada");
+      }
+
       confirmMealButton?.addEventListener("click", async () => {
         const meal = MEALS_DATA[currentMealKey];
         if (!meal) return;
@@ -1713,6 +1756,7 @@
           confirmations[currentMealKey] = mealRecord;
           localStorage.setItem(confirmationStorageKey, JSON.stringify(confirmations));
           persistMealSelections();
+          syncConfirmButton();
         } catch (error) {
           console.error("No se pudo guardar la confirmación local.", error);
         }
@@ -1756,8 +1800,8 @@
           console.error("Falló el envío al webhook:", error);
           showToast("Guardado localmente, pero no se pudo contactar el webhook.");
         } finally {
-          confirmMealButton.disabled = false;
           confirmMealButton.classList.remove("opacity-60");
+          syncConfirmButton();
         }
       });
 
