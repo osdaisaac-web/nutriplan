@@ -205,7 +205,7 @@
               <span class="font-title-sm text-title-sm text-on-surface truncate">Alerta WhatsApp / App</span>
               <span id="wa-time-tag" class="font-label-badge text-label-badge px-1.5 py-0.5 rounded bg-white text-[#075e54] font-bold">12:15 PM</span>
             </div>
-            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">15 min antes · WhatsApp requiere webhook conectado</p>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">15 min antes · avisos locales con la app abierta</p>
           </div>
         </div>
         <button aria-label="Alternar recordatorio" class="w-12 h-7 bg-primary rounded-full p-0.5 flex items-center transition-all cursor-pointer flex-shrink-0" id="wa-toggle-btn" type="button">
@@ -328,7 +328,7 @@
         </div>
 
         <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-          Al activar las alertas locales, la aplicación te avisará con sonido y notificación emergente la comida que te toca con tus porciones seleccionadas.
+          Las alertas del navegador funcionan mientras NutriPlan está abierta. Para recibir avisos con la página cerrada se necesita notificación push o un servicio programado en el servidor.
         </p>
 
         <div class="flex flex-wrap gap-2">
@@ -998,7 +998,30 @@
       // 4. STATE & DOM ELEMENTS
       // ==========================================
       let currentMealKey = "almuerzo";
-      const todayKey = new Date().toLocaleDateString("en-CA", { timeZone: "America/Bogota" });
+
+      function getBogotaDateKey(date = new Date()) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Bogota",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).formatToParts(date);
+        const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+        return `${values.year}-${values.month}-${values.day}`;
+      }
+
+      function getBogotaMinutes(date = new Date()) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Bogota",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23"
+        }).formatToParts(date);
+        const values = Object.fromEntries(parts.map(part => [part.type, Number(part.value)]));
+        return values.hour * 60 + values.minute;
+      }
+
+      const todayKey = getBogotaDateKey();
       const dailyMealStorageKey = `cemde_meals_${todayKey}`;
       const dailyWaterStorageKey = `cemde_water_${todayKey}`;
       let waterCount = Number(localStorage.getItem(dailyWaterStorageKey) || "0");
@@ -1429,30 +1452,30 @@
         }
       }
 
-      function triggerMealAlert() {
-        const meal = MEALS_DATA[currentMealKey];
+      function triggerMealAlert(mealKey = currentMealKey, askPermission = false) {
+        const meal = MEALS_DATA[mealKey];
+        if (!meal) return;
         const prot = meal.proteinOptions[meal.selectedProteinIdx].name;
         const carb = meal.carbOptions[meal.selectedCarbIdx].title;
         const bodyText = `Hora de tu ${meal.title} (${meal.time}): ${prot} + ${carb}. Recuerda tu vaso de agua.`;
+        const notificationTitle = `NutriPlan CEMDE: ${meal.title}`;
 
         playNotificationBeep();
         showToast(`🔔 Alerta: ${meal.title} — ${carb}`);
 
-        if ("Notification" in window) {
-          if (Notification.permission === "granted") {
-            new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
-          } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(perm => {
-              if (perm === "granted") {
-                new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
-              }
-            });
-          }
+        if (!("Notification" in window)) return;
+        if (Notification.permission === "granted") {
+          new Notification(notificationTitle, { body: bodyText });
+        } else if (askPermission && Notification.permission === "default") {
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted") new Notification(notificationTitle, { body: bodyText });
+          }).catch(error => console.warn("No se pudo solicitar permiso de notificaciones.", error));
         }
       }
 
-      document.getElementById("test-app-notification-btn")?.addEventListener("click", triggerMealAlert);
-      document.getElementById("header-bell-btn")?.addEventListener("click", triggerMealAlert);
+      // Request notification permission only from a direct user action.
+      document.getElementById("test-app-notification-btn")?.addEventListener("click", () => triggerMealAlert(currentMealKey, true));
+      document.getElementById("header-bell-btn")?.addEventListener("click", () => triggerMealAlert(currentMealKey, true));
 
       // Send summary to WhatsApp
       document.getElementById("send-wa-summary-btn")?.addEventListener("click", () => {
@@ -1487,11 +1510,32 @@
         waConsentInput.checked = localStorage.getItem("cemde_wa_consent") === "true";
         waConsentInput.addEventListener("change", () => {
           localStorage.setItem("cemde_wa_consent", String(waConsentInput.checked));
+          if (!waConsentInput.checked) {
+            localStorage.removeItem("cemde_wa_active");
+            waActive = false;
+            syncWaToggle();
+          }
         });
       }
       waPhoneInput?.addEventListener("change", () => {
         localStorage.setItem("cemde_wa_phone", waPhoneInput.value.replace(/\D/g, ""));
       });
+
+      async function postWebhook(payload) {
+        if (!webhookUrl) return { ok: false, reason: "missing-url" };
+        try {
+          const response = await fetch(webhookUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) return { ok: false, reason: `http-${response.status}` };
+          return { ok: true, status: response.status };
+        } catch (error) {
+          console.error("No se pudo verificar la respuesta del webhook:", error);
+          return { ok: false, reason: "network-or-cors" };
+        }
+      }
 
       document.getElementById("save-webhook-btn")?.addEventListener("click", () => {
         const candidate = (webhookInput?.value || "").trim();
@@ -1675,6 +1719,7 @@
 
         const webhookPayload = {
           event: "nutriplan.meal.confirmed",
+          idempotencyKey: `meal-confirmed-${todayKey}-${currentMealKey}`,
           source: "nutriplan-cemde",
           date: todayKey,
           timezone: "America/Bogota",
@@ -1716,7 +1761,7 @@
         }
       });
 
-      // WhatsApp reminder toggle is a preference, not proof that WhatsApp is connected.
+      // Reminder preference is off by default and requires explicit WhatsApp consent.
       const waBtn = document.getElementById("wa-toggle-btn");
       const waKnob = document.getElementById("wa-toggle-knob");
       let waActive = localStorage.getItem("cemde_wa_active") === "true";
@@ -1730,17 +1775,99 @@
       }
 
       waBtn?.addEventListener("click", () => {
+        const phone = (waPhoneInput?.value || "").replace(/\D/g, "");
+        if (!waActive && (!waConsentInput?.checked || phone.length < 8 || phone.length > 15)) {
+          showToast("Para activar WhatsApp, registra tu número y acepta los recordatorios.");
+          return;
+        }
         waActive = !waActive;
         localStorage.setItem("cemde_wa_active", String(waActive));
         syncWaToggle();
-        if (waActive && (!webhookUrl || !waConsentInput?.checked || !(waPhoneInput?.value || "").replace(/\D/g, ""))) {
-          showToast("Preferencia activada; conecta el webhook, registra tu número y acepta los avisos.");
-        } else {
-          showToast(waActive ? "Preferencia de recordatorios activada." : "Recordatorios pausados.");
-        }
+        showToast(waActive
+          ? (webhookUrl ? "Recordatorios activados mientras la app esté abierta." : "Preferencia activada; falta conectar el webhook.")
+          : "Recordatorios pausados.");
       });
 
-      // First render: dynamic sections need to be initialized after the script loads.
+      // Foreground scheduler: NutriPlan must stay open and active.
+      // Guaranteed delivery with the app closed needs a server scheduler and WhatsApp provider.
+      function parseTime12h(value) {
+        const match = String(value || "").trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if (!match) return null;
+        let hour = Number(match[1]) % 12;
+        if (match[3].toUpperCase() === "PM") hour += 12;
+        return hour * 60 + Number(match[2]);
+      }
+
+      function reminderFlagKey(dateKey, mealKey, channel) {
+        return `cemde_reminder_${dateKey}_${mealKey}_${channel}`;
+      }
+
+      function getConfirmedMeal(dateKey, mealKey) {
+        try {
+          const confirmations = JSON.parse(localStorage.getItem(`cemde_confirmations_${dateKey}`) || "{}");
+          return confirmations[mealKey] || null;
+        } catch (error) {
+          console.warn("No se pudo leer la comida confirmada.", error);
+          return null;
+        }
+      }
+
+      async function checkScheduledReminders() {
+        if (!waActive || document.hidden) return;
+        const now = new Date();
+        const dateKey = getBogotaDateKey(now);
+        const nowMinutes = getBogotaMinutes(now);
+        const allowedLateMinutes = 5;
+
+        for (const mealKey of Object.keys(MEALS_DATA)) {
+          const meal = MEALS_DATA[mealKey];
+          const reminderMinute = parseTime12h(meal.waTime);
+          if (reminderMinute === null) continue;
+          const lateBy = nowMinutes - reminderMinute;
+          if (lateBy < 0 || lateBy > allowedLateMinutes) continue;
+
+          // Notify only meals explicitly confirmed today.
+          const confirmedMeal = getConfirmedMeal(dateKey, mealKey);
+          if (!confirmedMeal) continue;
+
+          const appKey = reminderFlagKey(dateKey, mealKey, "app");
+          if (!localStorage.getItem(appKey)) {
+            localStorage.setItem(appKey, "1");
+            triggerMealAlert(mealKey, false);
+          }
+
+          const phone = (waPhoneInput?.value || "").replace(/\D/g, "");
+          const consent = Boolean(waConsentInput?.checked);
+          const canSendWhatsApp = Boolean(webhookUrl && consent && phone.length >= 8 && phone.length <= 15);
+          const waKey = reminderFlagKey(dateKey, mealKey, "whatsapp");
+          if (!canSendWhatsApp || localStorage.getItem(waKey)) continue;
+
+          // One attempt per meal/day prevents timer repeats from duplicating messages.
+          localStorage.setItem(waKey, "attempted");
+          const result = await postWebhook({
+            event: "nutriplan.meal.reminder",
+            source: "nutriplan-cemde",
+            idempotencyKey: `meal-reminder-${dateKey}-${mealKey}`,
+            date: dateKey,
+            timezone: "America/Bogota",
+            reminderMinutesBefore: 15,
+            whatsapp: { enabled: true, consent: true, phone, reminderTime: meal.waTime },
+            meal: confirmedMeal,
+            hydrationGlasses: waterCount,
+            sentAt: now.toISOString()
+          });
+
+          localStorage.setItem(waKey, result.ok ? "sent" : "failed");
+          if (!result.ok) showToast("No se confirmó el envío del recordatorio. Revisa el webhook.");
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) checkScheduledReminders();
+      });
+      window.addEventListener("focus", checkScheduledReminders);
+
+      // Initial render and foreground reminder check.
       persistMealSelections();
       renderMeal(currentMealKey);
       renderRecommendedCombos();
@@ -1748,6 +1875,8 @@
       renderWaterTracker();
       updateFastCalculator();
       syncWaToggle();
+      checkScheduledReminders();
+      setInterval(checkScheduledReminders, 30000);
     })();
   </script>
 </body>
