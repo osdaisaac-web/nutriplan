@@ -1698,8 +1698,18 @@
           console.warn("No se pudo sincronizar la preaprobación con el servidor.", error);
         }
       }
-      window.addEventListener("nutriplan:push-ready", () => {
-        Object.keys(MEALS_DATA).forEach(persistMealPreapproval);
+      window.addEventListener("nutriplan:push-ready", async () => {
+        // Sync only meal choices the person already pre-approved locally.
+        try {
+          const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+          for (const [mealKey, snapshot] of Object.entries(records)) {
+            if (MEALS_DATA[mealKey] && snapshot && snapshot.protein && snapshot.carbohydrate) {
+              await syncMealPlanWithPushServer(snapshot);
+            }
+          }
+        } catch (error) {
+          console.warn("No se pudieron sincronizar las comidas preaprobadas anteriores.", error);
+        }
       });
 
       function persistMealPreapproval(mealKey) {
