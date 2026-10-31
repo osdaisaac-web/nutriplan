@@ -1330,6 +1330,10 @@
                 <img id="meal-photo-preview" alt="Vista previa del plato" class="w-full max-h-72 object-contain rounded-xl bg-surface-container"/>
                 <p id="meal-photo-file-label" class="font-body-sm text-body-sm text-on-surface-variant"></p>
               </div>
+              <label class="flex items-start gap-2 rounded-lg bg-surface-container-low p-3 font-body-sm text-body-sm text-on-surface">
+                <input id="meal-photo-confirm-match" type="checkbox" class="mt-0.5 h-4 w-4 accent-[#006948]"/>
+                <span>Confirmo que la foto corresponde al plato que voy a consumir y a los alimentos preaprobados.</span>
+              </label>
               <button id="submit-meal-photo-btn" class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" type="button" disabled>
                 <span class="material-symbols-outlined">verified</span>
                 Enviar foto y finalizar
@@ -1867,6 +1871,7 @@
         const previewImage = document.getElementById("meal-photo-preview");
         const fileLabel = document.getElementById("meal-photo-file-label");
         const submitButton = document.getElementById("submit-meal-photo-btn");
+        const matchCheckbox = document.getElementById("meal-photo-confirm-match");
         const meal = MEALS_DATA[mealKey];
         if (!meal || !stageBadge || !previewWrap || !previewImage) return;
 
@@ -1910,7 +1915,7 @@
             : "Aún falta la foto para finalizar este registro.";
           submitButton.textContent = "Enviar foto y finalizar";
         }
-        submitButton.disabled = !selectedMealPhotoFile || selectedMealPhotoKey !== mealKey;
+        submitButton.disabled = !selectedMealPhotoFile || selectedMealPhotoKey !== mealKey || !matchCheckbox?.checked;
       }
 
       function connectMealPhotoWorkflow(mealKey) {
@@ -1920,6 +1925,7 @@
         const previewImage = document.getElementById("meal-photo-preview");
         const fileLabel = document.getElementById("meal-photo-file-label");
         const submitButton = document.getElementById("submit-meal-photo-btn");
+        const matchCheckbox = document.getElementById("meal-photo-confirm-match");
 
         if (pendingMealPhotoUrl) URL.revokeObjectURL(pendingMealPhotoUrl);
         pendingMealPhotoUrl = null;
@@ -1927,6 +1933,9 @@
         selectedMealPhotoKey = null;
 
         chooseButton?.addEventListener("click", () => input?.click());
+        matchCheckbox?.addEventListener("change", () => {
+          submitButton.disabled = !selectedMealPhotoFile || selectedMealPhotoKey !== mealKey || !matchCheckbox.checked;
+        });
         input?.addEventListener("change", () => {
           const file = input.files?.[0];
           if (!file) return;
@@ -1948,7 +1957,7 @@
           previewWrap.classList.remove("hidden");
           previewWrap.classList.add("flex");
           fileLabel.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB · pendiente de guardar`;
-          submitButton.disabled = false;
+          submitButton.disabled = !matchCheckbox?.checked;
           submitButton.textContent = "Enviar foto y finalizar";
           document.getElementById("meal-photo-status").textContent = "Revisa que la foto muestre el plato que vas a consumir.";
         });
@@ -1956,6 +1965,10 @@
         submitButton?.addEventListener("click", async () => {
           if (!selectedMealPhotoFile || selectedMealPhotoKey !== mealKey) {
             showToast("Primero toma o selecciona la foto de esta comida.");
+            return;
+          }
+          if (!matchCheckbox?.checked) {
+            showToast("Confirma que la foto corresponde al plato preaprobado.");
             return;
           }
           const mealSnapshot = getMealSnapshot(mealKey);
@@ -1979,7 +1992,8 @@
             photoName: selectedMealPhotoFile.name,
             photoType: selectedMealPhotoFile.type,
             finalApprovalAt: submittedAt.toISOString(),
-            approvalType: "user-submitted-with-photo",
+            approvalType: "user-confirmed-with-photo",
+            userConfirmedMatch: true,
             timezone: "America/Bogota"
           };
 
@@ -2000,6 +2014,7 @@
             selectedMealPhotoFile = null;
             selectedMealPhotoKey = null;
             input.value = "";
+            matchCheckbox.checked = false;
             showToast("Foto guardada y registro finalizado en este dispositivo.");
             syncMealApprovalBar();
             await refreshMealPhotoWorkflow(mealKey);
