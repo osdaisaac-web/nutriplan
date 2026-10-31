@@ -144,7 +144,7 @@
         </div>
       </div>
       <div class="flex items-center gap-space-xs flex-shrink-0">
-        <button id="header-bell-btn" aria-label="Probar alerta de comida" class="relative w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors">
+        <button id="header-bell-btn" aria-label="Abrir recordatorios y alertas" title="Abrir recordatorios y alertas" class="relative w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-on-surface-variant hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-[22px]">notifications_active</span>
           <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#25D366]"></span>
         </button>
@@ -1928,6 +1928,14 @@
         btn.addEventListener("click", () => {
           switchBottomTab(btn.getAttribute("data-nav"));
         });
+      });
+
+      // The header bell is a shortcut to the notification settings, not a test button.
+      document.getElementById("header-bell-btn")?.addEventListener("click", () => {
+        switchBottomTab("nutricionista");
+        window.setTimeout(() => {
+          document.getElementById("view-nutricionista")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 80);
       });
 
       // Set the history filter to the last seven calendar days and load device-local photos.
