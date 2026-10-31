@@ -486,6 +486,68 @@
       </div>
     </section>
 
+
+    <!-- ==========================================
+         TAB 5: HISTORIAL DE FOTOS PARA LA DOCTORA
+         ========================================== -->
+    <section id="view-historial" class="hidden flex-col w-full pb-24 gap-space-lg pt-2">
+      <div class="flex flex-col gap-1">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">Mi registro de comidas</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Aquí puedes revisar y descargar las fotos que has guardado para compartirlas con tu doctora.</p>
+      </div>
+
+      <div class="rounded-xl bg-secondary-container/25 border border-primary/10 p-space-md flex gap-2 items-start">
+        <span class="material-symbols-outlined text-primary">lock</span>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Tus fotos permanecen guardadas en este dispositivo. NutriPlan no las sube al servidor. Descárgalas o compártelas cuando quieras enviárselas a tu doctora.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+        <h3 class="font-title-sm text-title-sm text-on-surface">Filtrar registros</h3>
+        <div class="grid grid-cols-2 gap-space-sm">
+          <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Desde
+            <input id="history-date-from" type="date" class="w-full min-w-0 px-2 py-2 rounded-lg border border-outline-variant/60 bg-white text-on-surface"/>
+          </label>
+          <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Hasta
+            <input id="history-date-to" type="date" class="w-full min-w-0 px-2 py-2 rounded-lg border border-outline-variant/60 bg-white text-on-surface"/>
+          </label>
+        </div>
+        <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Tipo de comida
+          <select id="history-meal-filter" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant/60 bg-white text-on-surface">
+            <option value="all">Todas las comidas</option>
+            <option value="desayuno">Desayuno</option>
+            <option value="mediamanana">Media mañana</option>
+            <option value="almuerzo">Almuerzo</option>
+            <option value="algo">Algo de la tarde</option>
+            <option value="cena">Cena</option>
+          </select>
+        </label>
+        <button id="history-filter-btn" type="button" class="w-full py-2.5 rounded-lg bg-surface-container-low text-primary font-title-sm text-title-sm">Ver registros</button>
+      </div>
+
+      <div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <h3 class="font-title-sm text-title-sm text-on-surface">Enviar a mi doctora</h3>
+            <p id="history-export-count" class="font-body-sm text-body-sm text-on-surface-variant">Preparando tus fotos...</p>
+          </div>
+          <span class="material-symbols-outlined text-primary text-[26px]">folder_zip</span>
+        </div>
+        <button id="history-download-zip" type="button" class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 disabled:opacity-50">
+          <span class="material-symbols-outlined">download</span>
+          Descargar fotos organizadas
+        </button>
+        <button id="history-share-zip" type="button" class="hidden w-full min-h-[44px] rounded-xl border border-primary/30 text-primary font-title-sm text-title-sm items-center justify-center gap-2">
+          <span class="material-symbols-outlined">share</span>
+          Compartir paquete
+        </button>
+        <p class="font-body-sm text-on-surface-variant">El archivo incluye las fotos separadas por fecha y un resumen con el nombre de cada comida y los alimentos registrados. Tú decides a quién enviarlo.</p>
+      </div>
+
+      <div id="history-photo-list" class="flex flex-col gap-space-md">
+        <div class="p-space-lg rounded-xl bg-surface-container-low text-center font-body-sm text-on-surface-variant">Buscando fotos guardadas en este dispositivo...</div>
+      </div>
+    </section>
+
     <!-- Floating Fixed Action Drawer (Only visible on Equivalencias tab) -->
     <div id="floating-confirm-bar" class="fixed bottom-16 left-0 w-full z-40 px-margin pointer-events-none">
       <div class="max-w-lg mx-auto pointer-events-auto bg-inverse-surface text-inverse-on-surface p-space-md rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.22)] flex items-center justify-between gap-space-md mb-2">
@@ -528,6 +590,10 @@
       <button data-nav="nutricionista" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
         <span class="material-symbols-outlined text-[24px]">notifications_active</span>
         <span class="font-body-sm text-body-sm mt-0.5">Bot y Alertas</span>
+      </button>
+      <button data-nav="historial" class="nav-tab-btn flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-1 text-on-surface-variant hover:text-primary transition-colors" type="button">
+        <span class="material-symbols-outlined text-[24px]">photo_library</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Mi registro</span>
       </button>
       <button data-nav="mi-perfil" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
         <span class="material-symbols-outlined text-[24px]">water_drop</span>
@@ -1106,6 +1172,234 @@
         });
       }
 
+      async function getAllMealPhotoRecords() {
+        const db = await openMealPhotoDatabase();
+        return new Promise((resolve, reject) => {
+          const request = db.transaction("mealPhotos", "readonly").objectStore("mealPhotos").getAll();
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error || new Error("No se pudo cargar el historial de fotos."));
+        });
+      }
+
+      function historyEscape(value) {
+        return String(value || "").replace(/[&<>"']/g, char => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[char]));
+      }
+
+      function historyDateLabel(dateKey) {
+        const [year, month, day] = dateKey.split("-").map(Number);
+        return new Date(year, month - 1, day).toLocaleDateString("es-CO", {
+          weekday: "long", year: "numeric", month: "long", day: "numeric"
+        });
+      }
+
+      function historyTimeLabel(value) {
+        if (!value) return "";
+        return new Date(value).toLocaleTimeString("es-CO", {
+          timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit"
+        });
+      }
+
+      function historyPhotoExtension(record) {
+        const type = record.photoType || record.photo?.type || "image/jpeg";
+        if (type.includes("png")) return "png";
+        if (type.includes("webp")) return "webp";
+        if (type.includes("heic")) return "heic";
+        if (type.includes("heif")) return "heif";
+        return "jpg";
+      }
+
+      let historyRecords = [];
+      let historyObjectUrls = [];
+
+      async function loadMealPhotoHistory() {
+        const list = document.getElementById("history-photo-list");
+        if (!list) return;
+        try {
+          historyRecords = await getAllMealPhotoRecords();
+          refreshMealPhotoHistory();
+        } catch (error) {
+          list.innerHTML = '<div class="p-space-lg rounded-xl bg-error-container text-on-error-container text-center">No pudimos leer las fotos de este dispositivo. ' + historyEscape(error.message) + '</div>';
+        }
+      }
+
+      function filteredMealPhotoHistory() {
+        const from = document.getElementById("history-date-from")?.value || "";
+        const to = document.getElementById("history-date-to")?.value || "";
+        const meal = document.getElementById("history-meal-filter")?.value || "all";
+        return historyRecords.filter(record =>
+          record.photo && (!from || record.date >= from) && (!to || record.date <= to) &&
+          (meal === "all" || record.mealKey === meal)
+        ).sort((a,b) => (b.date || "").localeCompare(a.date || "") ||
+          (MEAL_EXPORT_ORDER.indexOf(a.mealKey) - MEAL_EXPORT_ORDER.indexOf(b.mealKey)));
+      }
+
+      const MEAL_EXPORT_ORDER = ["desayuno", "mediamanana", "almuerzo", "algo", "cena"];
+      const MEAL_EXPORT_NAMES = {
+        desayuno: "Desayuno", mediamanana: "Media manana", almuerzo: "Almuerzo",
+        algo: "Algo de la tarde", cena: "Cena"
+      };
+
+      function refreshMealPhotoHistory() {
+        const list = document.getElementById("history-photo-list");
+        const count = document.getElementById("history-export-count");
+        if (!list || !count) return;
+        historyObjectUrls.forEach(url => URL.revokeObjectURL(url));
+        historyObjectUrls = [];
+        const records = filteredMealPhotoHistory();
+        count.textContent = records.length
+          ? `${records.length} foto(s) listas para descargar o compartir.`
+          : "No hay fotos guardadas en el rango seleccionado.";
+        document.getElementById("history-download-zip").disabled = records.length === 0;
+        document.getElementById("history-share-zip").disabled = records.length === 0;
+        if (!records.length) {
+          list.innerHTML = '<div class="p-space-lg rounded-xl bg-surface-container-low text-center flex flex-col gap-2"><span class="material-symbols-outlined text-[32px] text-on-surface-variant">photo_library</span><strong class="text-on-surface">Aún no hay fotos en este filtro</strong><span class="font-body-sm text-on-surface-variant">Cuando finalices una comida con su foto, aparecerá aquí organizada por fecha y horario.</span></div>';
+          return;
+        }
+        const groups = new Map();
+        records.forEach((record,index) => {
+          if (!groups.has(record.date)) groups.set(record.date, []);
+          groups.get(record.date).push({record,index});
+        });
+        list.innerHTML = Array.from(groups.entries()).map(([date,items]) => `
+          <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+            <h3 class="font-title-sm text-title-sm text-primary capitalize">${historyEscape(historyDateLabel(date))}</h3>
+            ${items.map(({record,index}) => {
+              const url = URL.createObjectURL(record.photo); historyObjectUrls.push(url);
+              const mealName = MEAL_EXPORT_NAMES[record.mealKey] || record.title || "Comida";
+              return `
+                <article class="flex gap-3 items-start border-t border-outline-variant/40 pt-3">
+                  <img src="${url}" alt="Foto de ${historyEscape(mealName)}" class="w-24 h-24 object-cover rounded-lg bg-surface-container flex-shrink-0"/>
+                  <div class="min-w-0 flex-1 flex flex-col gap-1">
+                    <strong class="font-title-sm text-title-sm text-on-surface">${historyEscape(mealName)} · ${historyEscape(record.mealTime || "")}</strong>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(record.protein || "")}</span>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(record.carbohydrate || "")}</span>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(historyTimeLabel(record.finalApprovalAt))}</span>
+                    <button type="button" data-history-download="${index}" class="self-start mt-1 text-primary font-title-sm text-title-sm flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">download</span>Descargar foto</button>
+                  </div>
+                </article>`;
+            }).join("")}
+          </section>`).join("");
+      }
+
+      function crc32(bytes) {
+        let crc = -1;
+        for (let i = 0; i < bytes.length; i++) {
+          crc ^= bytes[i];
+          for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+        }
+        return (crc ^ -1) >>> 0;
+      }
+
+      function zipDosDateTime(dateValue) {
+        const date = dateValue instanceof Date ? dateValue : new Date();
+        const year = Math.max(1980, date.getFullYear());
+        return {
+          time: (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2),
+          date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()
+        };
+      }
+
+      async function createStoredZip(entries) {
+        const encoder = new TextEncoder();
+        const localParts = [], centralParts = [];
+        let offset = 0;
+        for (const entry of entries) {
+          const name = encoder.encode(entry.name);
+          const data = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(await entry.data.arrayBuffer());
+          const crc = crc32(data), stamp = zipDosDateTime(entry.date);
+          const local = new Uint8Array(30 + name.length);
+          const lv = new DataView(local.buffer);
+          lv.setUint32(0,0x04034b50,true); lv.setUint16(4,20,true); lv.setUint16(6,0x0800,true);
+          lv.setUint16(8,0,true); lv.setUint16(10,stamp.time,true); lv.setUint16(12,stamp.date,true);
+          lv.setUint32(14,crc,true); lv.setUint32(18,data.length,true); lv.setUint32(22,data.length,true);
+          lv.setUint16(26,name.length,true); lv.setUint16(28,0,true); local.set(name,30);
+          localParts.push(local,data);
+          const central = new Uint8Array(46 + name.length);
+          const cv = new DataView(central.buffer);
+          cv.setUint32(0,0x02014b50,true); cv.setUint16(4,20,true); cv.setUint16(6,20,true);
+          cv.setUint16(8,0x0800,true); cv.setUint16(10,0,true); cv.setUint16(12,stamp.time,true);
+          cv.setUint16(14,stamp.date,true); cv.setUint32(16,crc,true); cv.setUint32(20,data.length,true);
+          cv.setUint32(24,data.length,true); cv.setUint16(28,name.length,true); cv.setUint16(30,0,true);
+          cv.setUint16(32,0,true); cv.setUint16(34,0,true); cv.setUint16(36,0,true);
+          cv.setUint32(38,0,true); cv.setUint32(42,offset,true); central.set(name,46);
+          centralParts.push(central); offset += local.length + data.length;
+        }
+        const centralSize = centralParts.reduce((sum,part)=>sum+part.length,0);
+        const end = new Uint8Array(22), ev = new DataView(end.buffer);
+        ev.setUint32(0,0x06054b50,true); ev.setUint16(4,0,true); ev.setUint16(6,0,true);
+        ev.setUint16(8,entries.length,true); ev.setUint16(10,entries.length,true);
+        ev.setUint32(12,centralSize,true); ev.setUint32(16,offset,true); ev.setUint16(20,0,true);
+        return new Blob([...localParts,...centralParts,end],{type:"application/zip"});
+      }
+
+      async function buildMealHistoryZip() {
+        const records = filteredMealPhotoHistory();
+        if (!records.length) throw new Error("No hay fotos en el rango seleccionado.");
+        if (records.length > 200) throw new Error("Selecciona un rango menor; el paquete admite hasta 200 fotos a la vez.");
+        let totalBytes = records.reduce((sum,record)=>sum+(record.photo?.size||0),0);
+        if (totalBytes > 100 * 1024 * 1024) throw new Error("El paquete supera 100 MB. Descarga las fotos por periodos más cortos.");
+        const entries = [];
+        const lines = [
+          "NUTRIPLAN CEMDE - REGISTRO DE FOTOS",
+          "Exportado: " + new Date().toLocaleString("es-CO",{timeZone:"America/Bogota"}),
+          "Las fotos son registros aportados por la usuaria. Este archivo no representa una evaluación clínica.",
+          ""
+        ];
+        for (const record of records) {
+          const mealName = MEAL_EXPORT_NAMES[record.mealKey] || record.title || "Comida";
+          const ext = historyPhotoExtension(record);
+          const fileName = `${record.date}/${mealName.replace(/[^a-zA-Z0-9 -]/g,"").replace(/\s+/g,"-")}.${ext}`;
+          entries.push({name:fileName,data:record.photo,date:new Date(record.finalApprovalAt || record.date)});
+          lines.push(`${record.date} | ${mealName} | ${record.mealTime || ""} | ${record.protein || ""} | ${record.carbohydrate || ""} | Foto: ${fileName}`);
+        }
+        entries.push({name:"LEEME.txt",data:new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"}),date:new Date()});
+        return createStoredZip(entries);
+      }
+
+      function triggerHistoryDownload(blob,fileName) {
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url; anchor.download = fileName; anchor.style.display = "none";
+        document.body.appendChild(anchor); anchor.click(); anchor.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),30000);
+      }
+
+      document.getElementById("history-filter-btn")?.addEventListener("click",refreshMealPhotoHistory);
+      document.getElementById("history-meal-filter")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-date-from")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-date-to")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-photo-list")?.addEventListener("click",event=>{
+        const button = event.target.closest("[data-history-download]");
+        if (!button) return;
+        const record = filteredMealPhotoHistory()[Number(button.dataset.historyDownload)];
+        if (!record?.photo) return;
+        const mealName = MEAL_EXPORT_NAMES[record.mealKey] || "Comida";
+        triggerHistoryDownload(record.photo,`${record.date}-${mealName.replace(/\s+/g,"-")}.${historyPhotoExtension(record)}`);
+      });
+      document.getElementById("history-download-zip")?.addEventListener("click",async()=>{
+        const button = document.getElementById("history-download-zip");
+        button.disabled = true;
+        try {
+          const zip = await buildMealHistoryZip();
+          triggerHistoryDownload(zip,`NutriPlan-CEMDE-${getBogotaDateKey()}.zip`);
+          showToast("Paquete descargado. Ya puedes enviarlo a tu doctora.");
+        } catch(error) { showToast(error.message || "No se pudo preparar la descarga."); }
+        finally { button.disabled = filteredMealPhotoHistory().length === 0; }
+      });
+      document.getElementById("history-share-zip")?.addEventListener("click",async()=>{
+        const button = document.getElementById("history-share-zip");
+        button.disabled = true;
+        try {
+          const zip = await buildMealHistoryZip();
+          const file = new File([zip],`NutriPlan-CEMDE-${getBogotaDateKey()}.zip`,{type:"application/zip"});
+          if (!navigator.share || !navigator.canShare?.({files:[file]})) throw new Error("Este dispositivo no permite compartir archivos desde la app. Usa Descargar fotos organizadas.");
+          await navigator.share({title:"Registro de comidas NutriPlan CEMDE",text:"Fotos de comidas organizadas por fecha y horario.",files:[file]});
+        } catch(error) { if(error.name!=="AbortError") showToast(error.message || "No se pudo compartir el paquete."); }
+        finally { button.disabled = filteredMealPhotoHistory().length === 0; }
+      });
+
       // ==========================================
       // 5. RENDER MEAL VIEW (TAB 1: EQUIVALENCIAS)
       // ==========================================
@@ -1588,13 +1882,15 @@
         "equivalencias": document.getElementById("view-equivalencias"),
         "mi-plan": document.getElementById("view-mi-plan"),
         "nutricionista": document.getElementById("view-nutricionista"),
-        "mi-perfil": document.getElementById("view-mi-perfil")
+        "mi-perfil": document.getElementById("view-mi-perfil"),
+        "historial": document.getElementById("view-historial")
       };
       const subtitles = {
         "equivalencias": "Equivalencias y Porciones",
         "mi-plan": "Ideas de Carnes y Semáforo CEMDE",
         "nutricionista": "Recordatorios App y Bot WhatsApp",
-        "mi-perfil": "Control de Agua y Ayuno 12h"
+        "mi-perfil": "Control de Agua y Ayuno 12h",
+        "historial": "Fotos y registros para tu doctora"
       };
       const floatingConfirmBar = document.getElementById("floating-confirm-bar");
       const headerSubtitle = document.getElementById("header-subtitle");
@@ -1633,6 +1929,15 @@
           switchBottomTab(btn.getAttribute("data-nav"));
         });
       });
+
+      // Set the history filter to the last seven calendar days and load device-local photos.
+      const historyToday = getBogotaDateKey();
+      const historyTodayDate = new Date(historyToday + "T12:00:00Z");
+      historyTodayDate.setUTCDate(historyTodayDate.getUTCDate() - 6);
+      document.getElementById("history-date-to")?.setAttribute("value", historyToday);
+      document.getElementById("history-date-from")?.setAttribute("value", historyTodayDate.toISOString().slice(0,10));
+      document.getElementById("history-share-zip")?.classList.toggle("hidden", !navigator.share);
+      loadMealPhotoHistory();
 
       // WhatsApp toggle is initialized below after consent and webhook settings are loaded.
 
