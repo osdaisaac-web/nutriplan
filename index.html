@@ -5,6 +5,12 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <meta content="mobile_tab" name="shell-type"/>
   <title>NutriPlan CEMDE - Plan Clínico Activo</title>
+  <meta name="theme-color" content="#006948"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <link rel="manifest" href="/manifest.webmanifest"/>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml"/>
+  <link rel="apple-touch-icon" href="/icon.svg"/>
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -177,6 +183,10 @@
         </button>
       </div>
 
+      <p class="mt-2 px-1 font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Plan de hoy: elige una comida arriba, ajusta las opciones equivalentes y guarda tu selección. Puedes volver a cambiarla durante el día.
+      </p>
+
       <!-- Meal Prescription Header -->
       <div class="mt-space-md flex flex-col gap-space-xs">
         <div class="flex items-center justify-between">
@@ -197,20 +207,15 @@
       <!-- WhatsApp & App Notification Banner -->
       <div class="mt-space-md p-space-md rounded-xl bg-secondary-container/30 shadow-[0_2px_8px_rgba(0,108,73,0.06)] flex items-center justify-between gap-space-sm">
         <div class="flex items-center gap-space-sm min-w-0">
-          <div class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+          <div class="w-10 h-10 rounded-full bg-primary-fixed/50 text-primary flex items-center justify-center flex-shrink-0">
             <span class="material-symbols-outlined text-[22px]">notifications_active</span>
           </div>
           <div class="flex flex-col min-w-0">
-            <div class="flex items-center gap-1.5">
-              <span class="font-title-sm text-title-sm text-on-surface truncate">Alerta WhatsApp / App</span>
-              <span id="wa-time-tag" class="font-label-badge text-label-badge px-1.5 py-0.5 rounded bg-white text-[#075e54] font-bold">12:15 PM</span>
-            </div>
-            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">15 min antes con tu selección de hoy</p>
+            <span class="font-title-sm text-title-sm text-on-surface truncate">Avisos de NutriPlan</span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Recordatorios directos en tu celular</p>
           </div>
         </div>
-        <button aria-label="Alternar recordatorio" class="w-12 h-7 bg-primary rounded-full p-0.5 flex items-center transition-all cursor-pointer flex-shrink-0" id="wa-toggle-btn" type="button">
-          <div class="w-6 h-6 bg-white rounded-full shadow-md translate-x-5 transition-transform" id="wa-toggle-knob"></div>
-        </button>
+        <button id="push-settings-shortcut" class="px-3 py-2 rounded-lg bg-primary text-on-primary font-label-badge text-label-badge" type="button">Configurar</button>
       </div>
 
       <!-- Dynamic Stack Container for Current Meal -->
@@ -308,11 +313,11 @@
       <div class="flex flex-col gap-1">
         <h2 class="font-headline-sm text-headline-sm text-on-surface">Recordatorios y Asistente</h2>
         <p class="font-body-sm text-body-sm text-on-surface-variant">
-          Configura tus alertas nativas en el celular o conéctalas con tu Bot de WhatsApp / Cloudflare.
+          Recibe notificaciones propias de NutriPlan. No necesitas WhatsApp ni compartir tu número.
         </p>
       </div>
 
-      <!-- Native App Notification Card -->
+      <!-- Native Web Push Notifications -->
       <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
         <div class="flex items-start justify-between gap-2">
           <div class="flex items-center gap-space-sm">
@@ -320,70 +325,50 @@
               <span class="material-symbols-outlined text-[22px]">notifications_active</span>
             </div>
             <div>
-              <h3 class="font-title-md text-title-md text-on-surface">1. Notificación de la App (Gratis)</h3>
-              <p class="font-body-sm text-body-sm text-on-surface-variant">Funciona sin servidores pagos desde el navegador</p>
+              <h3 class="font-title-md text-title-md text-on-surface">Notificaciones en este celular</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Sin WhatsApp y sin usar tu número personal</p>
             </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">Recomendado</span>
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">Personal</span>
         </div>
-
         <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-          Al activar las alertas locales, la aplicación te avisará con sonido y notificación emergente la comida que te toca con tus porciones seleccionadas.
+          Recibe avisos de tus comidas, un recordatorio al final del día si faltan fotos y un mensaje de ánimo. Llegan como notificaciones de NutriPlan aunque no tengas abierta la página, una vez habilitadas en tu dispositivo y en el servidor.
         </p>
-
-        <div class="flex flex-wrap gap-2">
-          <button id="test-app-notification-btn" class="flex-1 py-2.5 px-4 rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-transform" type="button">
-            <span class="material-symbols-outlined text-[18px]">campaign</span>
-            Simular Alerta de Comida Ahora
-          </button>
-        </div>
-      </div>
-
-      <!-- WhatsApp Bot / Webhook Integration Card -->
-      <div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
-        <div class="flex items-center gap-space-sm">
-          <div class="w-10 h-10 rounded-xl bg-[#25D366]/15 text-[#075e54] flex items-center justify-center flex-shrink-0">
-            <span class="material-symbols-outlined text-[22px]">chat</span>
-          </div>
-          <div>
-            <h3 class="font-title-md text-title-md text-on-surface">2. Conexión con WhatsApp</h3>
-            <p class="font-body-sm text-body-sm text-on-surface-variant">Envía tu plan diario o conecta un Webhook (Cloudflare / GHL)</p>
+        <div class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-sm">
+          <label class="flex items-start gap-2 font-body-sm text-body-sm text-on-surface">
+            <input id="push-meals-enabled" type="checkbox" checked class="mt-0.5 h-4 w-4 accent-[#006948]"/>
+            <span><strong>Recordatorios de comidas</strong><br/><span class="text-on-surface-variant">15 minutos antes de cada horario del plan.</span></span>
+          </label>
+          <label class="flex items-start gap-2 font-body-sm text-body-sm text-on-surface">
+            <input id="push-photos-enabled" type="checkbox" checked class="mt-0.5 h-4 w-4 accent-[#006948]"/>
+            <span><strong>Fotos pendientes</strong><br/><span class="text-on-surface-variant">Un aviso al final del día si faltan fotos de comidas preaprobadas.</span></span>
+          </label>
+          <label class="flex items-start gap-2 font-body-sm text-body-sm text-on-surface">
+            <input id="push-motivation-enabled" type="checkbox" checked class="mt-0.5 h-4 w-4 accent-[#006948]"/>
+            <span><strong>Mensaje de motivación diario</strong><br/><span class="text-on-surface-variant">Un mensaje breve de ánimo, autocuidado y fe.</span></span>
+          </label>
+          <div class="flex items-center justify-between gap-3 pl-6">
+            <label for="push-motivation-time" class="font-body-sm text-body-sm text-on-surface-variant">Hora del mensaje:</label>
+            <input id="push-motivation-time" type="time" value="08:30" class="px-3 py-2 rounded-lg bg-white border border-outline-variant/50 font-title-sm text-title-sm text-on-surface"/>
           </div>
         </div>
-
-        <div class="flex flex-col gap-space-sm">
-          <label class="font-label-badge text-label-badge text-on-surface-variant uppercase">Número de WhatsApp (con código de país, ej. 57)</label>
-          <div class="flex gap-2">
-            <input id="wa-phone-input" type="tel" placeholder="573001234567" class="flex-1 px-3.5 py-2.5 rounded-xl bg-surface-container-low border border-outline-variant/50 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary"/>
-            <button id="send-wa-summary-btn" class="px-4 py-2.5 rounded-xl bg-[#25D366] text-white font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" type="button">
-              <span class="material-symbols-outlined text-[18px]">send</span>
-              Enviar Plan
-            </button>
-          </div>
-          <p class="font-body-sm text-body-sm text-on-surface-variant">
-            Toca <strong>"Enviar Plan"</strong> para abrir WhatsApp con el resumen exacto de tus 5 comidas y porciones elegidas hoy.
-          </p>
+        <button id="enable-push-btn" class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2" type="button">
+          <span class="material-symbols-outlined">notifications_active</span>
+          Activar notificaciones
+        </button>
+        <div class="grid grid-cols-2 gap-2">
+          <button id="save-push-preferences-btn" class="min-h-[44px] rounded-xl bg-surface-container text-primary font-title-sm text-title-sm" type="button">Guardar preferencias</button>
+          <button id="test-push-btn" class="min-h-[44px] rounded-xl bg-surface-container text-primary font-title-sm text-title-sm" type="button">Probar aviso</button>
         </div>
-
-        <!-- Optional Webhook for Cloudflare Worker / GHL -->
-        <details class="group bg-surface-container-low rounded-xl p-space-sm">
-          <summary class="font-title-sm text-title-sm text-primary cursor-pointer flex items-center justify-between list-none">
-            <span class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-[18px]">webhook</span>
-              Configurar Webhook Automático (Cloudflare / GHL / n8n)
-            </span>
-            <span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
-          </summary>
-          <div class="mt-space-sm flex flex-col gap-2 pt-2 border-t border-outline-variant/30">
-            <p class="font-body-sm text-body-sm text-on-surface-variant">
-              Si tienes un Inbound Webhook en GoHighLevel o un Cloudflare Worker, pégalo aquí. Cuando toques "Confirmar" en una comida, se enviará el JSON con las porciones:
-            </p>
-            <input id="webhook-url-input" type="url" placeholder="https://services.leadconnectorhq.com/hooks/..." class="w-full px-3 py-2 rounded-lg bg-white border border-outline-variant/50 font-body-sm text-body-sm"/>
-            <button id="save-webhook-btn" class="self-end px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-badge text-label-badge" type="button">
-              Guardar Webhook
-            </button>
-          </div>
-        </details>
+        <button id="disable-push-btn" class="hidden w-full min-h-[44px] rounded-xl border border-outline-variant text-on-surface-variant font-title-sm text-title-sm" type="button">Desactivar notificaciones</button>
+        <p id="push-status" class="font-body-sm text-body-sm text-on-surface-variant" aria-live="polite">Notificaciones aún no activadas en este dispositivo.</p>
+        <div class="rounded-xl bg-secondary-container/20 p-space-md font-body-sm text-body-sm text-on-surface-variant">
+          <strong class="text-on-surface">Para recibir avisos con la página cerrada:</strong>
+          <span id="push-install-instructions">En Android, permite las notificaciones cuando el navegador lo solicite. En iPhone, añade NutriPlan a la pantalla de inicio y abre la aplicación instalada.</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          Las preferencias y la suscripción de este dispositivo se guardan en el servidor. Las fotos permanecen guardadas en este dispositivo; el servidor registra únicamente si una foto quedó finalizada para evitar avisos innecesarios.
+        </p>
       </div>
 
       <!-- Interactive Diet Assistant Chat (Responds instant doubts from the CEMDE sheets) -->
@@ -501,6 +486,68 @@
       </div>
     </section>
 
+
+    <!-- ==========================================
+         TAB 5: HISTORIAL DE FOTOS PARA LA DOCTORA
+         ========================================== -->
+    <section id="view-historial" class="hidden flex-col w-full pb-24 gap-space-lg pt-2">
+      <div class="flex flex-col gap-1">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">Mi registro de comidas</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Aquí puedes revisar y descargar las fotos que has guardado para compartirlas con tu doctora.</p>
+      </div>
+
+      <div class="rounded-xl bg-secondary-container/25 border border-primary/10 p-space-md flex gap-2 items-start">
+        <span class="material-symbols-outlined text-primary">lock</span>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">Tus fotos permanecen guardadas en este dispositivo. NutriPlan no las sube al servidor. Descárgalas o compártelas cuando quieras enviárselas a tu doctora.</p>
+      </div>
+
+      <div class="bg-surface-container-lowest p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm">
+        <h3 class="font-title-sm text-title-sm text-on-surface">Filtrar registros</h3>
+        <div class="grid grid-cols-2 gap-space-sm">
+          <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Desde
+            <input id="history-date-from" type="date" class="w-full min-w-0 px-2 py-2 rounded-lg border border-outline-variant/60 bg-white text-on-surface"/>
+          </label>
+          <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Hasta
+            <input id="history-date-to" type="date" class="w-full min-w-0 px-2 py-2 rounded-lg border border-outline-variant/60 bg-white text-on-surface"/>
+          </label>
+        </div>
+        <label class="flex flex-col gap-1 font-body-sm text-on-surface-variant">Tipo de comida
+          <select id="history-meal-filter" class="w-full px-3 py-2.5 rounded-lg border border-outline-variant/60 bg-white text-on-surface">
+            <option value="all">Todas las comidas</option>
+            <option value="desayuno">Desayuno</option>
+            <option value="mediamanana">Media mañana</option>
+            <option value="almuerzo">Almuerzo</option>
+            <option value="algo">Algo de la tarde</option>
+            <option value="cena">Cena</option>
+          </select>
+        </label>
+        <button id="history-filter-btn" type="button" class="w-full py-2.5 rounded-lg bg-surface-container-low text-primary font-title-sm text-title-sm">Ver registros</button>
+      </div>
+
+      <div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col gap-2">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <h3 class="font-title-sm text-title-sm text-on-surface">Enviar a mi doctora</h3>
+            <p id="history-export-count" class="font-body-sm text-body-sm text-on-surface-variant">Preparando tus fotos...</p>
+          </div>
+          <span class="material-symbols-outlined text-primary text-[26px]">folder_zip</span>
+        </div>
+        <button id="history-download-zip" type="button" class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 disabled:opacity-50">
+          <span class="material-symbols-outlined">download</span>
+          Descargar fotos organizadas
+        </button>
+        <button id="history-share-zip" type="button" class="hidden w-full min-h-[44px] rounded-xl border border-primary/30 text-primary font-title-sm text-title-sm items-center justify-center gap-2">
+          <span class="material-symbols-outlined">share</span>
+          Compartir paquete
+        </button>
+        <p class="font-body-sm text-on-surface-variant">El archivo incluye las fotos separadas por fecha y un resumen con el nombre de cada comida y los alimentos registrados. Tú decides a quién enviarlo.</p>
+      </div>
+
+      <div id="history-photo-list" class="flex flex-col gap-space-md">
+        <div class="p-space-lg rounded-xl bg-surface-container-low text-center font-body-sm text-on-surface-variant">Buscando fotos guardadas en este dispositivo...</div>
+      </div>
+    </section>
+
     <!-- Floating Fixed Action Drawer (Only visible on Equivalencias tab) -->
     <div id="floating-confirm-bar" class="fixed bottom-16 left-0 w-full z-40 px-margin pointer-events-none">
       <div class="max-w-lg mx-auto pointer-events-auto bg-inverse-surface text-inverse-on-surface p-space-md rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.22)] flex items-center justify-between gap-space-md mb-2">
@@ -510,11 +557,12 @@
             <span id="Summary-bar-title" class="font-title-sm text-title-sm text-white truncate">Almuerzo Configurado</span>
           </div>
           <span id="summary-bar-subtitle" class="font-body-sm text-body-sm text-inverse-on-surface/80 truncate">Pollo/Res Magro + 4 cdas Arroz</span>
+          <span id="confirm-meal-status" class="font-label-badge text-label-badge text-inverse-on-surface/70">Preaprobado según el plan</span>
         </div>
         <div class="flex items-center gap-space-xs flex-shrink-0">
-          <button class="px-space-md py-2.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="confirm-meal-btn" type="button">
-            <span class="material-symbols-outlined text-[18px]">check_circle</span>
-            Confirmar
+          <button class="px-space-md py-2.5 rounded-xl bg-primary-fixed text-on-primary-fixed font-title-sm text-title-sm flex items-center gap-1.5 shadow-sm active:scale-95 transition-transform" id="go-to-meal-photo-btn" type="button" aria-label="Ir a enviar la foto del plato">
+            <span class="material-symbols-outlined text-[18px]">photo_camera</span>
+            <span>Enviar foto</span>
           </button>
         </div>
       </div>
@@ -542,6 +590,10 @@
       <button data-nav="nutricionista" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
         <span class="material-symbols-outlined text-[24px]">notifications_active</span>
         <span class="font-body-sm text-body-sm mt-0.5">Bot y Alertas</span>
+      </button>
+      <button data-nav="historial" class="nav-tab-btn flex flex-col items-center justify-center min-w-[56px] min-h-[44px] py-1 px-1 text-on-surface-variant hover:text-primary transition-colors" type="button">
+        <span class="material-symbols-outlined text-[24px]">photo_library</span>
+        <span class="font-body-sm text-body-sm mt-0.5">Mi registro</span>
       </button>
       <button data-nav="mi-perfil" class="nav-tab-btn flex flex-col items-center justify-center min-w-[64px] min-h-[44px] py-1 px-space-xs text-on-surface-variant hover:text-primary transition-colors" type="button">
         <span class="material-symbols-outlined text-[24px]">water_drop</span>
@@ -994,8 +1046,67 @@
       // 4. STATE & DOM ELEMENTS
       // ==========================================
       let currentMealKey = "almuerzo";
-      let waterCount = parseInt(localStorage.getItem("cemde_water") || "4", 10);
+
+      function getBogotaDateKey(date = new Date()) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Bogota",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).formatToParts(date);
+        const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+        return `${values.year}-${values.month}-${values.day}`;
+      }
+
+      function getBogotaMinutes(date = new Date()) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Bogota",
+          hour: "2-digit",
+          minute: "2-digit",
+          hourCycle: "h23"
+        }).formatToParts(date);
+        const values = Object.fromEntries(parts.map(part => [part.type, Number(part.value)]));
+        return values.hour * 60 + values.minute;
+      }
+
+      const todayKey = getBogotaDateKey();
+      const dailyMealStorageKey = `cemde_meals_${todayKey}`;
+      const dailyWaterStorageKey = `cemde_water_${todayKey}`;
+      let waterCount = Number(localStorage.getItem(dailyWaterStorageKey) || "0");
+      if (!Number.isFinite(waterCount)) waterCount = 0;
+      waterCount = Math.max(0, Math.min(8, waterCount));
       let webhookUrl = localStorage.getItem("cemde_webhook") || "";
+      localStorage.removeItem("cemde_wa_active");
+
+      // Restore today's meal selections on this device.
+      try {
+        const savedSelections = JSON.parse(localStorage.getItem(dailyMealStorageKey) || "{}");
+        Object.entries(savedSelections).forEach(([key, saved]) => {
+          const meal = MEALS_DATA[key];
+          if (!meal || !saved) return;
+          const proteinIndex = Number(saved.selectedProteinIdx);
+          const carbIndex = Number(saved.selectedCarbIdx);
+          if (Number.isInteger(proteinIndex) && proteinIndex >= 0 && proteinIndex < meal.proteinOptions.length) {
+            meal.selectedProteinIdx = proteinIndex;
+          }
+          if (Number.isInteger(carbIndex) && carbIndex >= 0 && carbIndex < meal.carbOptions.length) {
+            meal.selectedCarbIdx = carbIndex;
+          }
+        });
+      } catch (error) {
+        console.warn("No se pudieron recuperar las selecciones guardadas.", error);
+      }
+
+      function persistMealSelections() {
+        const selections = {};
+        Object.entries(MEALS_DATA).forEach(([key, meal]) => {
+          selections[key] = {
+            selectedProteinIdx: meal.selectedProteinIdx,
+            selectedCarbIdx: meal.selectedCarbIdx
+          };
+        });
+        localStorage.setItem(dailyMealStorageKey, JSON.stringify(selections));
+      }
 
       const mealCardsContainer = document.getElementById("meal-cards-container");
       const mealTitleEl = document.getElementById("meal-title");
@@ -1017,6 +1128,277 @@
           toastModal.classList.add("opacity-0", "pointer-events-none");
         }, 2800);
       }
+
+      // Photo evidence is stored in IndexedDB on this device.
+      let mealPhotoDbPromise = null;
+      let selectedMealPhotoFile = null;
+      let selectedMealPhotoKey = null;
+      let pendingMealPhotoUrl = null;
+      let savedMealPhotoUrl = null;
+
+      function openMealPhotoDatabase() {
+        if (!("indexedDB" in window)) return Promise.reject(new Error("Este navegador no permite guardar fotos localmente."));
+        if (!mealPhotoDbPromise) {
+          mealPhotoDbPromise = new Promise((resolve, reject) => {
+            const request = indexedDB.open("NutriPlanCEMDE", 1);
+            request.onupgradeneeded = () => {
+              const db = request.result;
+              if (!db.objectStoreNames.contains("mealPhotos")) db.createObjectStore("mealPhotos", { keyPath: "recordId" });
+            };
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error || new Error("No se pudo abrir el almacenamiento de fotos."));
+          });
+        }
+        return mealPhotoDbPromise;
+      }
+
+      async function getMealPhotoRecord(recordId) {
+        const db = await openMealPhotoDatabase();
+        return new Promise((resolve, reject) => {
+          const request = db.transaction("mealPhotos", "readonly").objectStore("mealPhotos").get(recordId);
+          request.onsuccess = () => resolve(request.result || null);
+          request.onerror = () => reject(request.error || new Error("No se pudo leer la foto guardada."));
+        });
+      }
+
+      async function saveMealPhotoRecord(record) {
+        const db = await openMealPhotoDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = db.transaction("mealPhotos", "readwrite");
+          transaction.objectStore("mealPhotos").put(record);
+          transaction.oncomplete = () => resolve(true);
+          transaction.onerror = () => reject(transaction.error || new Error("No se pudo guardar la foto."));
+          transaction.onabort = () => reject(transaction.error || new Error("El guardado fue cancelado."));
+        });
+      }
+
+      async function getAllMealPhotoRecords() {
+        const db = await openMealPhotoDatabase();
+        return new Promise((resolve, reject) => {
+          const request = db.transaction("mealPhotos", "readonly").objectStore("mealPhotos").getAll();
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => reject(request.error || new Error("No se pudo cargar el historial de fotos."));
+        });
+      }
+
+      function historyEscape(value) {
+        return String(value || "").replace(/[&<>"']/g, char => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        }[char]));
+      }
+
+      function historyDateLabel(dateKey) {
+        const [year, month, day] = dateKey.split("-").map(Number);
+        return new Date(year, month - 1, day).toLocaleDateString("es-CO", {
+          weekday: "long", year: "numeric", month: "long", day: "numeric"
+        });
+      }
+
+      function historyTimeLabel(value) {
+        if (!value) return "";
+        return new Date(value).toLocaleTimeString("es-CO", {
+          timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit"
+        });
+      }
+
+      function historyPhotoExtension(record) {
+        const type = record.photoType || record.photo?.type || "image/jpeg";
+        if (type.includes("png")) return "png";
+        if (type.includes("webp")) return "webp";
+        if (type.includes("heic")) return "heic";
+        if (type.includes("heif")) return "heif";
+        return "jpg";
+      }
+
+      let historyRecords = [];
+      let historyObjectUrls = [];
+
+      async function loadMealPhotoHistory() {
+        const list = document.getElementById("history-photo-list");
+        if (!list) return;
+        try {
+          historyRecords = await getAllMealPhotoRecords();
+          refreshMealPhotoHistory();
+        } catch (error) {
+          list.innerHTML = '<div class="p-space-lg rounded-xl bg-error-container text-on-error-container text-center">No pudimos leer las fotos de este dispositivo. ' + historyEscape(error.message) + '</div>';
+        }
+      }
+
+      function filteredMealPhotoHistory() {
+        const from = document.getElementById("history-date-from")?.value || "";
+        const to = document.getElementById("history-date-to")?.value || "";
+        const meal = document.getElementById("history-meal-filter")?.value || "all";
+        return historyRecords.filter(record =>
+          record.photo && (!from || record.date >= from) && (!to || record.date <= to) &&
+          (meal === "all" || record.mealKey === meal)
+        ).sort((a,b) => (b.date || "").localeCompare(a.date || "") ||
+          (MEAL_EXPORT_ORDER.indexOf(a.mealKey) - MEAL_EXPORT_ORDER.indexOf(b.mealKey)));
+      }
+
+      const MEAL_EXPORT_ORDER = ["desayuno", "mediamanana", "almuerzo", "algo", "cena"];
+      const MEAL_EXPORT_NAMES = {
+        desayuno: "Desayuno", mediamanana: "Media manana", almuerzo: "Almuerzo",
+        algo: "Algo de la tarde", cena: "Cena"
+      };
+
+      function refreshMealPhotoHistory() {
+        const list = document.getElementById("history-photo-list");
+        const count = document.getElementById("history-export-count");
+        if (!list || !count) return;
+        historyObjectUrls.forEach(url => URL.revokeObjectURL(url));
+        historyObjectUrls = [];
+        const records = filteredMealPhotoHistory();
+        count.textContent = records.length
+          ? `${records.length} foto(s) listas para descargar o compartir.`
+          : "No hay fotos guardadas en el rango seleccionado.";
+        document.getElementById("history-download-zip").disabled = records.length === 0;
+        document.getElementById("history-share-zip").disabled = records.length === 0;
+        if (!records.length) {
+          list.innerHTML = '<div class="p-space-lg rounded-xl bg-surface-container-low text-center flex flex-col gap-2"><span class="material-symbols-outlined text-[32px] text-on-surface-variant">photo_library</span><strong class="text-on-surface">Aún no hay fotos en este filtro</strong><span class="font-body-sm text-on-surface-variant">Cuando finalices una comida con su foto, aparecerá aquí organizada por fecha y horario.</span></div>';
+          return;
+        }
+        const groups = new Map();
+        records.forEach((record,index) => {
+          if (!groups.has(record.date)) groups.set(record.date, []);
+          groups.get(record.date).push({record,index});
+        });
+        list.innerHTML = Array.from(groups.entries()).map(([date,items]) => `
+          <section class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col gap-space-sm">
+            <h3 class="font-title-sm text-title-sm text-primary capitalize">${historyEscape(historyDateLabel(date))}</h3>
+            ${items.map(({record,index}) => {
+              const url = URL.createObjectURL(record.photo); historyObjectUrls.push(url);
+              const mealName = MEAL_EXPORT_NAMES[record.mealKey] || record.title || "Comida";
+              return `
+                <article class="flex gap-3 items-start border-t border-outline-variant/40 pt-3">
+                  <img src="${url}" alt="Foto de ${historyEscape(mealName)}" class="w-24 h-24 object-cover rounded-lg bg-surface-container flex-shrink-0"/>
+                  <div class="min-w-0 flex-1 flex flex-col gap-1">
+                    <strong class="font-title-sm text-title-sm text-on-surface">${historyEscape(mealName)} · ${historyEscape(record.mealTime || "")}</strong>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(record.protein || "")}</span>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(record.carbohydrate || "")}</span>
+                    <span class="font-body-sm text-on-surface-variant">${historyEscape(historyTimeLabel(record.finalApprovalAt))}</span>
+                    <button type="button" data-history-download="${index}" class="self-start mt-1 text-primary font-title-sm text-title-sm flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">download</span>Descargar foto</button>
+                  </div>
+                </article>`;
+            }).join("")}
+          </section>`).join("");
+      }
+
+      function crc32(bytes) {
+        let crc = -1;
+        for (let i = 0; i < bytes.length; i++) {
+          crc ^= bytes[i];
+          for (let bit = 0; bit < 8; bit++) crc = (crc >>> 1) ^ (crc & 1 ? 0xedb88320 : 0);
+        }
+        return (crc ^ -1) >>> 0;
+      }
+
+      function zipDosDateTime(dateValue) {
+        const date = dateValue instanceof Date ? dateValue : new Date();
+        const year = Math.max(1980, date.getFullYear());
+        return {
+          time: (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2),
+          date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()
+        };
+      }
+
+      async function createStoredZip(entries) {
+        const encoder = new TextEncoder();
+        const localParts = [], centralParts = [];
+        let offset = 0;
+        for (const entry of entries) {
+          const name = encoder.encode(entry.name);
+          const data = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(await entry.data.arrayBuffer());
+          const crc = crc32(data), stamp = zipDosDateTime(entry.date);
+          const local = new Uint8Array(30 + name.length);
+          const lv = new DataView(local.buffer);
+          lv.setUint32(0,0x04034b50,true); lv.setUint16(4,20,true); lv.setUint16(6,0x0800,true);
+          lv.setUint16(8,0,true); lv.setUint16(10,stamp.time,true); lv.setUint16(12,stamp.date,true);
+          lv.setUint32(14,crc,true); lv.setUint32(18,data.length,true); lv.setUint32(22,data.length,true);
+          lv.setUint16(26,name.length,true); lv.setUint16(28,0,true); local.set(name,30);
+          localParts.push(local,data);
+          const central = new Uint8Array(46 + name.length);
+          const cv = new DataView(central.buffer);
+          cv.setUint32(0,0x02014b50,true); cv.setUint16(4,20,true); cv.setUint16(6,20,true);
+          cv.setUint16(8,0x0800,true); cv.setUint16(10,0,true); cv.setUint16(12,stamp.time,true);
+          cv.setUint16(14,stamp.date,true); cv.setUint32(16,crc,true); cv.setUint32(20,data.length,true);
+          cv.setUint32(24,data.length,true); cv.setUint16(28,name.length,true); cv.setUint16(30,0,true);
+          cv.setUint16(32,0,true); cv.setUint16(34,0,true); cv.setUint16(36,0,true);
+          cv.setUint32(38,0,true); cv.setUint32(42,offset,true); central.set(name,46);
+          centralParts.push(central); offset += local.length + data.length;
+        }
+        const centralSize = centralParts.reduce((sum,part)=>sum+part.length,0);
+        const end = new Uint8Array(22), ev = new DataView(end.buffer);
+        ev.setUint32(0,0x06054b50,true); ev.setUint16(4,0,true); ev.setUint16(6,0,true);
+        ev.setUint16(8,entries.length,true); ev.setUint16(10,entries.length,true);
+        ev.setUint32(12,centralSize,true); ev.setUint32(16,offset,true); ev.setUint16(20,0,true);
+        return new Blob([...localParts,...centralParts,end],{type:"application/zip"});
+      }
+
+      async function buildMealHistoryZip() {
+        const records = filteredMealPhotoHistory();
+        if (!records.length) throw new Error("No hay fotos en el rango seleccionado.");
+        if (records.length > 200) throw new Error("Selecciona un rango menor; el paquete admite hasta 200 fotos a la vez.");
+        let totalBytes = records.reduce((sum,record)=>sum+(record.photo?.size||0),0);
+        if (totalBytes > 100 * 1024 * 1024) throw new Error("El paquete supera 100 MB. Descarga las fotos por periodos más cortos.");
+        const entries = [];
+        const lines = [
+          "NUTRIPLAN CEMDE - REGISTRO DE FOTOS",
+          "Exportado: " + new Date().toLocaleString("es-CO",{timeZone:"America/Bogota"}),
+          "Las fotos son registros aportados por la usuaria. Este archivo no representa una evaluación clínica.",
+          ""
+        ];
+        for (const record of records) {
+          const mealName = MEAL_EXPORT_NAMES[record.mealKey] || record.title || "Comida";
+          const ext = historyPhotoExtension(record);
+          const fileName = `${record.date}/${mealName.replace(/[^a-zA-Z0-9 -]/g,"").replace(/\s+/g,"-")}.${ext}`;
+          entries.push({name:fileName,data:record.photo,date:new Date(record.finalApprovalAt || record.date)});
+          lines.push(`${record.date} | ${mealName} | ${record.mealTime || ""} | ${record.protein || ""} | ${record.carbohydrate || ""} | Foto: ${fileName}`);
+        }
+        entries.push({name:"LEEME.txt",data:new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"}),date:new Date()});
+        return createStoredZip(entries);
+      }
+
+      function triggerHistoryDownload(blob,fileName) {
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url; anchor.download = fileName; anchor.style.display = "none";
+        document.body.appendChild(anchor); anchor.click(); anchor.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),30000);
+      }
+
+      document.getElementById("history-filter-btn")?.addEventListener("click",refreshMealPhotoHistory);
+      document.getElementById("history-meal-filter")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-date-from")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-date-to")?.addEventListener("change",refreshMealPhotoHistory);
+      document.getElementById("history-photo-list")?.addEventListener("click",event=>{
+        const button = event.target.closest("[data-history-download]");
+        if (!button) return;
+        const record = filteredMealPhotoHistory()[Number(button.dataset.historyDownload)];
+        if (!record?.photo) return;
+        const mealName = MEAL_EXPORT_NAMES[record.mealKey] || "Comida";
+        triggerHistoryDownload(record.photo,`${record.date}-${mealName.replace(/\s+/g,"-")}.${historyPhotoExtension(record)}`);
+      });
+      document.getElementById("history-download-zip")?.addEventListener("click",async()=>{
+        const button = document.getElementById("history-download-zip");
+        button.disabled = true;
+        try {
+          const zip = await buildMealHistoryZip();
+          triggerHistoryDownload(zip,`NutriPlan-CEMDE-${getBogotaDateKey()}.zip`);
+          showToast("Paquete descargado. Ya puedes enviarlo a tu doctora.");
+        } catch(error) { showToast(error.message || "No se pudo preparar la descarga."); }
+        finally { button.disabled = filteredMealPhotoHistory().length === 0; }
+      });
+      document.getElementById("history-share-zip")?.addEventListener("click",async()=>{
+        const button = document.getElementById("history-share-zip");
+        button.disabled = true;
+        try {
+          const zip = await buildMealHistoryZip();
+          const file = new File([zip],`NutriPlan-CEMDE-${getBogotaDateKey()}.zip`,{type:"application/zip"});
+          if (!navigator.share || !navigator.canShare?.({files:[file]})) throw new Error("Este dispositivo no permite compartir archivos desde la app. Usa Descargar fotos organizadas.");
+          await navigator.share({title:"Registro de comidas NutriPlan CEMDE",text:"Fotos de comidas organizadas por fecha y horario.",files:[file]});
+        } catch(error) { if(error.name!=="AbortError") showToast(error.message || "No se pudo compartir el paquete."); }
+        finally { button.disabled = filteredMealPhotoHistory().length === 0; }
+      });
 
       // ==========================================
       // 5. RENDER MEAL VIEW (TAB 1: EQUIVALENCIAS)
@@ -1042,14 +1424,16 @@
         mealTitleEl.textContent = meal.title;
         mealTimeBadgeEl.textContent = meal.time;
         mealSubtitleInfoEl.textContent = meal.subtitle;
-        waTimeTagEl.textContent = meal.waTime;
+        if (waTimeTagEl) waTimeTagEl.textContent = meal.waTime;
 
         const activeProt = meal.proteinOptions[meal.selectedProteinIdx];
         const activeCarb = meal.carbOptions[meal.selectedCarbIdx];
+        persistMealPreapproval(mealKey);
 
         // Update bottom floating bar
         summaryBarTitleEl.textContent = `${meal.title} (${meal.time})`;
         summaryBarSubtitleEl.textContent = `${activeProt.name.split("(")[0].trim()} + ${activeCarb.title}`;
+        syncMealApprovalBar();
 
         // Build cards HTML
         const radioOptionsHtml = meal.proteinOptions.map((opt, idx) => `
@@ -1184,6 +1568,52 @@
               <span class="material-symbols-outlined text-[18px] text-primary">chevron_right</span>
             </div>
           </div>
+
+          <!-- Two-stage meal approval: pre-approval + photo evidence -->
+          <section id="meal-photo-workflow" class="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_2px_12px_rgba(19,27,46,0.04)] flex flex-col gap-space-md">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-center gap-space-sm">
+                <div class="w-10 h-10 rounded-xl bg-secondary-container/40 text-primary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[22px]">fact_check</span>
+                </div>
+                <div>
+                  <h2 class="font-title-md text-title-md text-on-surface">Validación de tu plato</h2>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Dos pasos para cada comida</p>
+                </div>
+              </div>
+              <span id="meal-photo-stage-badge" class="px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-badge text-label-badge">Preaprobado</span>
+            </div>
+            <div class="rounded-xl bg-secondary-container/20 p-space-md flex flex-col gap-1">
+              <p class="font-label-badge text-label-badge text-secondary uppercase">1. Preaprobación según tu plan</p>
+              <p id="meal-preapproval-summary" class="font-title-sm text-title-sm text-on-surface">${activeProt.name} + ${activeCarb.title}</p>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Estas opciones están incluidas en las equivalencias de tu plan CEMDE. Al cambiarlas, la preaprobación se actualiza automáticamente.</p>
+            </div>
+            <div class="flex flex-col gap-space-sm">
+              <div>
+                <p class="font-label-badge text-label-badge text-on-surface uppercase">2. Foto del plato servido</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Toma una foto o selecciona una imagen donde se vea el plato que vas a consumir.</p>
+              </div>
+              <input id="meal-photo-input" type="file" accept="image/*" capture="environment" class="hidden"/>
+              <button id="choose-meal-photo-btn" class="w-full min-h-[48px] rounded-xl border border-primary/30 bg-surface-container-low text-primary font-title-sm text-title-sm flex items-center justify-center gap-2" type="button">
+                <span class="material-symbols-outlined">add_a_photo</span>
+                Tomar foto o elegir de galería
+              </button>
+              <div id="meal-photo-preview-wrap" class="hidden flex-col gap-2">
+                <img id="meal-photo-preview" alt="Vista previa del plato" class="w-full max-h-72 object-contain rounded-xl bg-surface-container"/>
+                <p id="meal-photo-file-label" class="font-body-sm text-body-sm text-on-surface-variant"></p>
+              </div>
+              <label class="flex items-start gap-2 rounded-lg bg-surface-container-low p-3 font-body-sm text-body-sm text-on-surface">
+                <input id="meal-photo-confirm-match" type="checkbox" class="mt-0.5 h-4 w-4 accent-[#006948]"/>
+                <span>Confirmo que la foto corresponde al plato que voy a consumir y a los alimentos preaprobados.</span>
+              </label>
+              <button id="submit-meal-photo-btn" class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-title-sm text-title-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" type="button" disabled>
+                <span class="material-symbols-outlined">verified</span>
+                Enviar foto y finalizar
+              </button>
+              <p id="meal-photo-status" class="font-body-sm text-body-sm text-on-surface-variant" aria-live="polite">Aún falta la foto para finalizar este registro.</p>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">Al marcar la casilla y enviar la foto, registras tu aprobación de que el plato corresponde a los alimentos preaprobados. La foto y sus ingredientes quedan guardados en este navegador y dispositivo; no se suben a una nube ni se comparten automáticamente. NutriPlan no analiza la imagen con IA ni sustituye la revisión de un nutricionista.</p>
+            </div>
+          </section>
         `;
 
         // Wire dynamic listeners inside the newly rendered cards
@@ -1207,6 +1637,8 @@
         document.querySelectorAll(".protein-radio").forEach(radio => {
           radio.addEventListener("change", (e) => {
             meal.selectedProteinIdx = parseInt(e.target.value, 10);
+            persistMealSelections();
+            persistMealPreapproval(mealKey);
             renderMeal(mealKey);
             showToast("Proteína actualizada en tu plato");
           });
@@ -1215,9 +1647,13 @@
         document.querySelectorAll(".carb-chip").forEach(chip => {
           chip.addEventListener("click", () => {
             meal.selectedCarbIdx = parseInt(chip.getAttribute("data-carb-idx"), 10);
+            persistMealSelections();
+            persistMealPreapproval(mealKey);
             renderMeal(mealKey);
           });
         });
+
+        connectMealPhotoWorkflow(mealKey);
       }
 
       // Wire top meal pills
@@ -1262,6 +1698,7 @@
             if (!combo) return;
             MEALS_DATA[combo.mealKey].selectedProteinIdx = combo.proteinIdx;
             MEALS_DATA[combo.mealKey].selectedCarbIdx = combo.carbIdx;
+            persistMealSelections();
             switchBottomTab("equivalencias");
             renderMeal(combo.mealKey);
             showToast(`Menú "${combo.title}" cargado en ${MEALS_DATA[combo.mealKey].title}`);
@@ -1366,78 +1803,7 @@
       });
 
       // ==========================================
-      // 7. NOTIFICATIONS, WHATSAPP & FAQ (TAB 3)
-      // ==========================================
-      function playNotificationBeep() {
-        try {
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-          osc.frequency.setValueAtTime(880, ctx.currentTime + 0.12); // A5
-          gain.gain.setValueAtTime(0.15, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.4);
-        } catch (e) {
-          // AudioContext blocked or unsupported
-        }
-      }
-
-      function triggerMealAlert() {
-        const meal = MEALS_DATA[currentMealKey];
-        const prot = meal.proteinOptions[meal.selectedProteinIdx].name;
-        const carb = meal.carbOptions[meal.selectedCarbIdx].title;
-        const bodyText = `Hora de tu ${meal.title} (${meal.time}): ${prot} + ${carb}. Recuerda tu vaso de agua.`;
-
-        playNotificationBeep();
-        showToast(`🔔 Alerta: ${meal.title} — ${carb}`);
-
-        if ("Notification" in window) {
-          if (Notification.permission === "granted") {
-            new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
-          } else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(perm => {
-              if (perm === "granted") {
-                new Notification(`NutriPlan CEMDE: ${meal.title}`, { body: bodyText });
-              }
-            });
-          }
-        }
-      }
-
-      document.getElementById("test-app-notification-btn")?.addEventListener("click", triggerMealAlert);
-      document.getElementById("header-bell-btn")?.addEventListener("click", triggerMealAlert);
-
-      // Send summary to WhatsApp
-      document.getElementById("send-wa-summary-btn")?.addEventListener("click", () => {
-        const rawPhone = (document.getElementById("wa-phone-input")?.value || "").replace(/\D/g, "");
-        const lines = [
-          "🌿 *MI PLAN NUTRICIONAL CEMDE DE HOY*",
-          `💧 Hidratación: ${waterCount}/8 vasos`,
-          ""
-        ];
-        Object.keys(MEALS_DATA).forEach(k => {
-          const m = MEALS_DATA[k];
-          const p = m.proteinOptions[m.selectedProteinIdx].name;
-          const c = m.carbOptions[m.selectedCarbIdx].title;
-          lines.push(`⏰ *${m.title} (${m.time}):* ${p} + ${c}`);
-        });
-        const url = `https://wa.me/${rawPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
-        window.open(url, "_blank", "noopener,noreferrer");
-      });
-
-      // Save Webhook
-      const webhookInput = document.getElementById("webhook-url-input");
-      if (webhookInput && webhookUrl) webhookInput.value = webhookUrl;
-      document.getElementById("save-webhook-btn")?.addEventListener("click", () => {
-        webhookUrl = (webhookInput?.value || "").trim();
-        localStorage.setItem("cemde_webhook", webhookUrl);
-        showToast("Webhook guardado para sincronización automática");
-      });
+      // Native push notification controls are wired in the PWA client script below.
 
       // FAQ Quick Answers
       const FAQ_ANSWERS = {
@@ -1484,7 +1850,7 @@
         document.querySelectorAll(".water-glass-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             waterCount = parseInt(btn.getAttribute("data-glass"), 10);
-            localStorage.setItem("cemde_water", String(waterCount));
+            localStorage.setItem(dailyWaterStorageKey, String(waterCount));
             renderWaterTracker();
             showToast(`Hidratación registrada: ${waterCount} de 8 vasos`);
           });
@@ -1516,13 +1882,15 @@
         "equivalencias": document.getElementById("view-equivalencias"),
         "mi-plan": document.getElementById("view-mi-plan"),
         "nutricionista": document.getElementById("view-nutricionista"),
-        "mi-perfil": document.getElementById("view-mi-perfil")
+        "mi-perfil": document.getElementById("view-mi-perfil"),
+        "historial": document.getElementById("view-historial")
       };
       const subtitles = {
         "equivalencias": "Equivalencias y Porciones",
         "mi-plan": "Ideas de Carnes y Semáforo CEMDE",
         "nutricionista": "Recordatorios App y Bot WhatsApp",
-        "mi-perfil": "Control de Agua y Ayuno 12h"
+        "mi-perfil": "Control de Agua y Ayuno 12h",
+        "historial": "Fotos y registros para tu doctora"
       };
       const floatingConfirmBar = document.getElementById("floating-confirm-bar");
       const headerSubtitle = document.getElementById("header-subtitle");
@@ -1562,31 +1930,490 @@
         });
       });
 
-      // WhatsApp toggle switch
-      const waBtn = document.getElementById("wa-toggle-btn");
-      const waKnob = document.getElementById("wa-toggle-knob");
-      let waActive = true;
-      waBtn?.addEventListener("click", () => {
-        waActive = !waActive;
-        if (waActive) {
-          waBtn.classList.remove("bg-surface-variant");
-          waBtn.classList.add("bg-primary");
-          waKnob.classList.add("translate-x-5");
-          showToast("Recordatorio automático activado");
-        } else {
-          waBtn.classList.remove("bg-primary");
-          waBtn.classList.add("bg-surface-variant");
-          waKnob.classList.remove("translate-x-5");
-          showToast("Recordatorio en pausa");
+      // Set the history filter to the last seven calendar days and load device-local photos.
+      const historyToday = getBogotaDateKey();
+      const historyTodayDate = new Date(historyToday + "T12:00:00Z");
+      historyTodayDate.setUTCDate(historyTodayDate.getUTCDate() - 6);
+      document.getElementById("history-date-to")?.setAttribute("value", historyToday);
+      document.getElementById("history-date-from")?.setAttribute("value", historyTodayDate.toISOString().slice(0,10));
+      document.getElementById("history-share-zip")?.classList.toggle("hidden", !navigator.share);
+      loadMealPhotoHistory();
+
+      // WhatsApp toggle is initialized below after consent and webhook settings are loaded.
+
+      // Every selected meal is pre-approved against the stored plan options.
+      const confirmMealStatus = document.getElementById("confirm-meal-status");
+      const photoJumpButton = document.getElementById("go-to-meal-photo-btn");
+
+      function getSavedMealConfirmation(mealKey) {
+        try {
+          const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+          return records[mealKey] || null;
+        } catch (error) {
+          console.warn("No se pudo consultar el registro del día.", error);
+          return null;
+        }
+      }
+
+      function getMealSnapshot(mealKey) {
+        const meal = MEALS_DATA[mealKey];
+        if (!meal) return null;
+        const protein = meal.proteinOptions[meal.selectedProteinIdx];
+        const carbohydrate = meal.carbOptions[meal.selectedCarbIdx];
+        return {
+          mealKey,
+          title: meal.title,
+          mealTime: meal.time,
+          reminderTime: meal.waTime,
+          protein: protein.name,
+          proteinMeasure: protein.measure || "",
+          proteinDescription: protein.desc || "",
+          carbohydrate: carbohydrate.title,
+          carbohydrateMeasure: carbohydrate.sub || "",
+          extraTitle: meal.extraCard?.title || "",
+          extra: meal.extraCard?.mainText || "",
+          extraDescription: meal.extraCard?.subText || "",
+          status: "preapproved",
+          preapprovedAt: new Date().toISOString(),
+          timezone: "America/Bogota"
+        };
+      }
+
+      const syncedMealFingerprints = {};
+      async function syncMealPlanWithPushServer(snapshot) {
+        try {
+          const registration = await navigator.serviceWorker?.getRegistration("/");
+          const subscription = await registration?.pushManager?.getSubscription();
+          if (!subscription || !snapshot) return;
+          const fingerprint = JSON.stringify([snapshot.protein, snapshot.carbohydrate, snapshot.extra]);
+          const syncKey = `${todayKey}_${snapshot.mealKey}`;
+          if (syncedMealFingerprints[syncKey] === fingerprint) return;
+          const response = await fetch("/api/meal/preapproved", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              endpoint: subscription.endpoint, date: todayKey, mealKey: snapshot.mealKey,
+              title: snapshot.title, protein: snapshot.protein, carbohydrate: snapshot.carbohydrate,
+              updatedAt: new Date().toISOString()
+            })
+          });
+          if (!response.ok) throw new Error(`No se pudo sincronizar la comida (HTTP ${response.status}).`);
+          syncedMealFingerprints[syncKey] = fingerprint;
+        } catch (error) {
+          console.warn("No se pudo sincronizar la preaprobación con el servidor.", error);
+        }
+      }
+      window.addEventListener("nutriplan:push-ready", async () => {
+        // Sync only meal choices the person already pre-approved locally.
+        try {
+          const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+          for (const [mealKey, snapshot] of Object.entries(records)) {
+            if (MEALS_DATA[mealKey] && snapshot && snapshot.protein && snapshot.carbohydrate) {
+              await syncMealPlanWithPushServer(snapshot);
+            }
+          }
+        } catch (error) {
+          console.warn("No se pudieron sincronizar las comidas preaprobadas anteriores.", error);
         }
       });
 
-      // Confirm Button (Saves locally + sends to Webhook if configured)
-      document.getElementById("confirm-meal-btn")?.addEventListener("click", async () => {
-        const meal = MEALS_DATA[currentMealKey];
-        const prot = meal.proteinOptions[meal.selectedProteinIdx];
-        const carb = meal.carbOptions[meal.selectedCarbIdx];
+      function persistMealPreapproval(mealKey) {
+        const snapshot = getMealSnapshot(mealKey);
+        if (!snapshot) return;
+        try {
+          const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+          const previous = records[mealKey];
+          const isSameSelection = Boolean(
+            previous &&
+            previous.protein === snapshot.protein &&
+            previous.carbohydrate === snapshot.carbohydrate
+          );
+          records[mealKey] = {
+            ...snapshot,
+            ...(isSameSelection && previous.finalApprovalAt
+              ? { status: "final_photo_submitted", finalApprovalAt: previous.finalApprovalAt, photoRecordId: previous.photoRecordId }
+              : {})
+          };
+          localStorage.setItem(`cemde_confirmations_${todayKey}`, JSON.stringify(records));
+          syncMealPlanWithPushServer(snapshot);
+        } catch (error) {
+          console.warn("No se pudo guardar la preaprobación del plan.", error);
+        }
+      }
 
-        if (webhookUrl) {
+      function syncMealApprovalBar() {
+        if (!confirmMealStatus) return;
+        const meal = MEALS_DATA[currentMealKey];
+        if (!meal) return;
+        const saved = getSavedMealConfirmation(currentMealKey);
+        const same = saved &&
+          saved.protein === meal.proteinOptions[meal.selectedProteinIdx].name &&
+          saved.carbohydrate === meal.carbOptions[meal.selectedCarbIdx].title;
+        confirmMealStatus.textContent = same && saved.finalApprovalAt
+          ? "Foto final registrada"
+          : "Preaprobado según el plan";
+      }
+
+      photoJumpButton?.addEventListener("click", () => {
+        document.getElementById("meal-photo-workflow")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      function currentMealPhotoRecordId(mealKey) {
+        return `${todayKey}_${mealKey}`;
+      }
+
+      async function refreshMealPhotoWorkflow(mealKey) {
+        const stageBadge = document.getElementById("meal-photo-stage-badge");
+        const statusText = document.getElementById("meal-photo-status");
+        const preapprovalSummary = document.getElementById("meal-preapproval-summary");
+        const previewWrap = document.getElementById("meal-photo-preview-wrap");
+        const previewImage = document.getElementById("meal-photo-preview");
+        const fileLabel = document.getElementById("meal-photo-file-label");
+        const submitButton = document.getElementById("submit-meal-photo-btn");
+        const matchCheckbox = document.getElementById("meal-photo-confirm-match");
+        const meal = MEALS_DATA[mealKey];
+        if (!meal || !stageBadge || !previewWrap || !previewImage) return;
+
+        const snapshot = getMealSnapshot(mealKey);
+        preapprovalSummary.textContent = `${snapshot.protein} + ${snapshot.carbohydrate} · ${snapshot.extra}`;
+        const record = await getMealPhotoRecord(currentMealPhotoRecordId(mealKey)).catch(error => {
+          console.warn("No se pudo recuperar la foto anterior.", error);
+          return null;
+        });
+
+        if (mealKey !== currentMealKey || !document.getElementById("meal-photo-workflow")) return;
+        if (savedMealPhotoUrl) URL.revokeObjectURL(savedMealPhotoUrl);
+        savedMealPhotoUrl = null;
+
+        const matches = Boolean(record &&
+          record.protein === snapshot.protein &&
+          record.carbohydrate === snapshot.carbohydrate);
+
+        if (record?.photo) {
+          savedMealPhotoUrl = URL.createObjectURL(record.photo);
+          previewImage.src = savedMealPhotoUrl;
+          previewWrap.classList.remove("hidden");
+          previewWrap.classList.add("flex");
+          fileLabel.textContent = matches
+            ? `Foto guardada · ${new Date(record.finalApprovalAt).toLocaleString("es-CO")}`
+            : "Hay una foto anterior de otra selección. Toma una foto nueva para esta combinación.";
+        } else {
+          previewImage.removeAttribute("src");
+          previewWrap.classList.add("hidden");
+          previewWrap.classList.remove("flex");
+        }
+
+        if (matches) {
+          stageBadge.textContent = "Foto registrada";
+          statusText.textContent = "Registro final guardado con la foto y los ingredientes de esta comida.";
+          submitButton.textContent = "Actualizar foto del plato";
+        } else {
+          stageBadge.textContent = "Preaprobado";
+          statusText.textContent = record
+            ? "Cambiaste los alimentos del plan. Necesitas una foto nueva para finalizar esta combinación."
+            : "Aún falta la foto para finalizar este registro.";
+          submitButton.textContent = "Enviar foto y finalizar";
+        }
+        submitButton.disabled = !selectedMealPhotoFile || selectedMealPhotoKey !== mealKey || !matchCheckbox?.checked;
+      }
+
+      function connectMealPhotoWorkflow(mealKey) {
+        const input = document.getElementById("meal-photo-input");
+        const chooseButton = document.getElementById("choose-meal-photo-btn");
+        const previewWrap = document.getElementById("meal-photo-preview-wrap");
+        const previewImage = document.getElementById("meal-photo-preview");
+        const fileLabel = document.getElementById("meal-photo-file-label");
+        const submitButton = document.getElementById("submit-meal-photo-btn");
+        const matchCheckbox = document.getElementById("meal-photo-confirm-match");
+
+        if (pendingMealPhotoUrl) URL.revokeObjectURL(pendingMealPhotoUrl);
+        pendingMealPhotoUrl = null;
+        selectedMealPhotoFile = null;
+        selectedMealPhotoKey = null;
+
+        chooseButton?.addEventListener("click", () => input?.click());
+        matchCheckbox?.addEventListener("change", () => {
+          submitButton.disabled = !selectedMealPhotoFile || selectedMealPhotoKey !== mealKey || !matchCheckbox.checked;
+        });
+        input?.addEventListener("change", () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          if (!file.type.startsWith("image/")) {
+            showToast("Selecciona una foto en formato de imagen.");
+            input.value = "";
+            return;
+          }
+          if (file.size > 10 * 1024 * 1024) {
+            showToast("La foto debe pesar máximo 10 MB.");
+            input.value = "";
+            return;
+          }
+          selectedMealPhotoFile = file;
+          selectedMealPhotoKey = mealKey;
+          if (pendingMealPhotoUrl) URL.revokeObjectURL(pendingMealPhotoUrl);
+          pendingMealPhotoUrl = URL.createObjectURL(file);
+          previewImage.src = pendingMealPhotoUrl;
+          previewWrap.classList.remove("hidden");
+          previewWrap.classList.add("flex");
+          fileLabel.textContent = `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} MB · pendiente de guardar`;
+          submitButton.disabled = !matchCheckbox?.checked;
+          submitButton.textContent = "Enviar foto y finalizar";
+          document.getElementById("meal-photo-status").textContent = "Revisa que la foto muestre el plato que vas a consumir.";
+        });
+
+        submitButton?.addEventListener("click", async () => {
+          if (!selectedMealPhotoFile || selectedMealPhotoKey !== mealKey) {
+            showToast("Primero toma o selecciona la foto de esta comida.");
+            return;
+          }
+          if (!matchCheckbox?.checked) {
+            showToast("Confirma que la foto corresponde al plato preaprobado.");
+            return;
+          }
+          const mealSnapshot = getMealSnapshot(mealKey);
+          const submittedAt = new Date();
+          const photoRecordId = currentMealPhotoRecordId(mealKey);
+          const record = {
+            recordId: photoRecordId,
+            date: todayKey,
+            mealKey,
+            title: mealSnapshot.title,
+            mealTime: mealSnapshot.mealTime,
+            protein: mealSnapshot.protein,
+            proteinMeasure: mealSnapshot.proteinMeasure,
+            proteinDescription: mealSnapshot.proteinDescription,
+            carbohydrate: mealSnapshot.carbohydrate,
+            carbohydrateMeasure: mealSnapshot.carbohydrateMeasure,
+            extraTitle: mealSnapshot.extraTitle,
+            extra: mealSnapshot.extra,
+            extraDescription: mealSnapshot.extraDescription,
+            photo: selectedMealPhotoFile,
+            photoName: selectedMealPhotoFile.name,
+            photoType: selectedMealPhotoFile.type,
+            finalApprovalAt: submittedAt.toISOString(),
+            approvalType: "user-confirmed-with-photo",
+            userConfirmedMatch: true,
+            timezone: "America/Bogota"
+          };
+
+          submitButton.disabled = true;
+          submitButton.classList.add("opacity-60");
           try {
-            await fetch(webhookUrl, {
+            await saveMealPhotoRecord(record);
+            const records = JSON.parse(localStorage.getItem(`cemde_confirmations_${todayKey}`) || "{}");
+            records[mealKey] = {
+              ...mealSnapshot,
+              status: "final_photo_submitted",
+              finalApprovalAt: submittedAt.toISOString(),
+              photoRecordId
+            };
+            localStorage.setItem(`cemde_confirmations_${todayKey}`, JSON.stringify(records));
+            try {
+              const registration = await navigator.serviceWorker?.getRegistration("/");
+              const pushSubscription = await registration?.pushManager?.getSubscription();
+              if (pushSubscription) {
+                await fetch("/api/meal/photo-completed", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    endpoint: pushSubscription.endpoint, date: todayKey, mealKey,
+                    title: mealSnapshot.title, protein: mealSnapshot.protein,
+                    carbohydrate: mealSnapshot.carbohydrate, completedAt: submittedAt.toISOString()
+                  })
+                });
+              }
+            } catch (syncError) {
+              console.warn("La foto quedó guardada localmente; no se pudo sincronizar el estado.", syncError);
+            }
+            if (pendingMealPhotoUrl) URL.revokeObjectURL(pendingMealPhotoUrl);
+            pendingMealPhotoUrl = null;
+            selectedMealPhotoFile = null;
+            selectedMealPhotoKey = null;
+            input.value = "";
+            matchCheckbox.checked = false;
+            showToast("Foto guardada y registro finalizado en este dispositivo.");
+            syncMealApprovalBar();
+            await refreshMealPhotoWorkflow(mealKey);
+          } catch (error) {
+            console.error("No se pudo guardar la foto del plato:", error);
+            document.getElementById("meal-photo-status").textContent = "No se pudo guardar la foto. Revisa el espacio disponible del navegador e inténtalo de nuevo.";
+            submitButton.disabled = false;
+          } finally {
+            submitButton.classList.remove("opacity-60");
+          }
+        });
+
+        refreshMealPhotoWorkflow(mealKey);
+      }
+
+      // Initial render.
+      persistMealSelections();
+      renderMeal(currentMealKey);
+      renderRecommendedCombos();
+      renderSemaforo();
+      renderWaterTracker();
+      updateFastCalculator();
+      syncWaToggle();
+      checkScheduledReminders();
+      setInterval(checkScheduledReminders, 30000);
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const $ = id => document.getElementById(id);
+      const statusEl = $("push-status");
+      const enableButton = $("enable-push-btn");
+      const disableButton = $("disable-push-btn");
+      const testButton = $("test-push-btn");
+      const saveButton = $("save-push-preferences-btn");
+      const defaults = { mealsEnabled:true, photosEnabled:true, motivationEnabled:true, motivationTime:"08:30" };
+
+      function readPreferences() {
+        return {
+          mealsEnabled:Boolean($("push-meals-enabled")?.checked),
+          photosEnabled:Boolean($("push-photos-enabled")?.checked),
+          motivationEnabled:Boolean($("push-motivation-enabled")?.checked),
+          motivationTime:$("push-motivation-time")?.value || "08:30"
+        };
+      }
+      function writePreferences(p) {
+        if ($("push-meals-enabled")) $("push-meals-enabled").checked=p.mealsEnabled!==false;
+        if ($("push-photos-enabled")) $("push-photos-enabled").checked=p.photosEnabled!==false;
+        if ($("push-motivation-enabled")) $("push-motivation-enabled").checked=p.motivationEnabled!==false;
+        if ($("push-motivation-time")) $("push-motivation-time").value=p.motivationTime||"08:30";
+      }
+      function setStatus(message,error=false) {
+        if (!statusEl) return;
+        statusEl.textContent=message;
+        statusEl.classList.toggle("text-error",error);
+        statusEl.classList.toggle("text-on-surface-variant",!error);
+      }
+      const ios=()=>/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+      const standalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+      function installHelp() {
+        const help=$("push-install-instructions");
+        if (!help) return;
+        help.textContent=ios()&&!standalone()
+          ?"En iPhone: abre esta página en Safari, toca Compartir → Añadir a pantalla de inicio. Abre NutriPlan desde ese icono y vuelve aquí para activar los avisos."
+          :(!standalone()
+            ?"En Android: abre el menú ⋮ del navegador y elige Instalar aplicación o Añadir a pantalla de inicio. Después permite las notificaciones."
+            :"NutriPlan está abierta como aplicación instalada. Pulsa Activar notificaciones y acepta el permiso del sistema.");
+      }
+      function decodeVapid(value) {
+        const padded=value+"=".repeat((4-value.length%4)%4);
+        const raw=atob(padded.replace(/-/g,"+").replace(/_/g,"/"));
+        return Uint8Array.from(raw,ch=>ch.charCodeAt(0));
+      }
+      async function postJson(url,body) {
+        const response=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+        const result=await response.json().catch(()=>({}));
+        if(!response.ok) throw new Error(result.error||`Error HTTP ${response.status}`);
+        return result;
+      }
+      async function pushConfig() {
+        if (!window.isSecureContext||!("serviceWorker" in navigator)||!("PushManager" in window)||!("Notification" in window)) {
+          throw new Error("Este navegador no admite notificaciones push seguras. Actualiza Safari o Chrome.");
+        }
+        const response=await fetch("/api/push/config",{cache:"no-store"});
+        const config=await response.json();
+        if(!response.ok||!config.publicKey) throw new Error("No se pudo consultar la configuración de notificaciones.");
+        if(!config.ready) {
+          const needs=[];
+          if(!config.hasDatabase) needs.push("crear y conectar la base de datos D1");
+          if(!config.hasVapidSecret) needs.push("guardar la clave privada de notificaciones");
+          throw new Error(`Falta terminar la configuración del servidor: ${needs.join(" y ")}. La interfaz está preparada, pero todavía no puede enviar avisos.`);
+        }
+        return config;
+      }
+      async function currentSubscription() {
+        const registration=await navigator.serviceWorker.getRegistration("/");
+        return registration?.pushManager?.getSubscription()||null;
+      }
+      async function initialise() {
+        try {
+          writePreferences(JSON.parse(localStorage.getItem("nutriplan_push_preferences")||"null")||defaults);
+        } catch { writePreferences(defaults); }
+        installHelp();
+        try {
+          const sub=await currentSubscription();
+          if(sub&&Notification.permission==="granted") {
+            enableButton?.classList.add("hidden");
+            disableButton?.classList.remove("hidden");
+            setStatus("Notificaciones permitidas en este dispositivo. Puedes ajustar tus preferencias.");
+          } else if(Notification.permission==="denied") {
+            setStatus("El permiso está bloqueado en el navegador. Actívalo desde los ajustes del sitio.",true);
+          }
+        } catch(error) { setStatus(error.message||"No se pudo consultar el estado.",true); }
+      }
+      enableButton?.addEventListener("click",async()=>{
+        enableButton.disabled=true;
+        setStatus("Preparando notificaciones...");
+        try {
+          if(ios()&&!standalone()) throw new Error("Primero añade NutriPlan a la pantalla de inicio desde Safari. Después abre la aplicación instalada y activa las notificaciones.");
+          const config=await pushConfig();
+          const permission=await Notification.requestPermission();
+          if(permission!=="granted") throw new Error("No concediste permiso para mostrar notificaciones.");
+          const registration=await navigator.serviceWorker.register("/sw.js",{scope:"/"});
+          await navigator.serviceWorker.ready;
+          const sub=await registration.pushManager.getSubscription()||await registration.pushManager.subscribe({
+            userVisibleOnly:true,applicationServerKey:decodeVapid(config.publicKey)
+          });
+          try {
+            const saved=JSON.parse(localStorage.getItem("nutriplan_push_preferences")||"null");
+            if(saved) writePreferences(saved);
+          } catch {}
+          const result=await postJson("/api/push/subscribe",{
+            subscription:sub.toJSON(),preferences:readPreferences(),timezone:"America/Bogota"
+          });
+          localStorage.setItem("nutriplan_push_preferences",JSON.stringify(readPreferences()));
+          enableButton.classList.add("hidden");
+          disableButton.classList.remove("hidden");
+          window.dispatchEvent(new Event("nutriplan:push-ready"));
+          setStatus(result.testSent?"¡Listo! Te enviamos una notificación de prueba.":"Dispositivo registrado. El envío de prueba no pudo confirmarse.");
+        } catch(error) { setStatus(error.message||"No fue posible activar las notificaciones.",true); }
+        finally { enableButton.disabled=false; }
+      });
+      saveButton?.addEventListener("click",async()=>{
+        try {
+          const sub=await currentSubscription();
+          if(!sub) {
+            localStorage.setItem("nutriplan_push_preferences",JSON.stringify(readPreferences()));
+            setStatus("Preferencias guardadas en este dispositivo. Activa primero las notificaciones para sincronizarlas.");
+            return;
+          }
+          await postJson("/api/push/subscribe",{subscription:sub.toJSON(),preferences:readPreferences(),timezone:"America/Bogota"});
+          localStorage.setItem("nutriplan_push_preferences",JSON.stringify(readPreferences()));
+          setStatus("Preferencias guardadas.");
+        } catch(error) { setStatus(error.message||"No se pudieron guardar las preferencias.",true); }
+      });
+      testButton?.addEventListener("click",async()=>{
+        try {
+          const sub=await currentSubscription();
+          if(!sub) throw new Error("Primero activa las notificaciones en este dispositivo.");
+          const result=await postJson("/api/push/test",{endpoint:sub.endpoint});
+          setStatus(result.sent?"Notificación de prueba enviada.":"El servidor no pudo enviar la prueba.",!result.sent);
+        } catch(error) { setStatus(error.message||"No se pudo enviar la prueba.",true); }
+      });
+      disableButton?.addEventListener("click",async()=>{
+        try {
+          const sub=await currentSubscription();
+          if(sub) {
+            await postJson("/api/push/unsubscribe",{endpoint:sub.endpoint}).catch(()=>{});
+            await sub.unsubscribe();
+          }
+          disableButton.classList.add("hidden");
+          enableButton.classList.remove("hidden");
+          setStatus("Notificaciones desactivadas en este dispositivo.");
+        } catch(error) { setStatus(error.message||"No se pudieron desactivar.",true); }
+      });
+      $("push-settings-shortcut")?.addEventListener("click",()=>{
+        document.querySelector('.nav-tab-btn[data-nav="nutricionista"]')?.click();
+        window.setTimeout(()=>enableButton?.scrollIntoView({behavior:"smooth",block:"center"}),100);
+      });
+      if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initialise,{once:true});
+      else initialise();
+    })();
+  </script>
+</body>
+</html>
