@@ -3,3 +3,8 @@ wrangler.jsonc
 .git/
 .github/
 .wrangler/
+src/
+migrations/
+package.json
+package-lock.json
+node_modules/

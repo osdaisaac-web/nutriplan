@@ -1,0 +1,9 @@
+{
+  "name": "nutriplan-cemde",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@block65/webcrypto-web-push": "2.0.0"
+  }
+}
