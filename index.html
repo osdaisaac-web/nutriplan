@@ -1635,24 +1635,7 @@
         });
       });
 
-      // WhatsApp toggle switch
-      const waBtn = document.getElementById("wa-toggle-btn");
-      const waKnob = document.getElementById("wa-toggle-knob");
-      let waActive = true;
-      waBtn?.addEventListener("click", () => {
-        waActive = !waActive;
-        if (waActive) {
-          waBtn.classList.remove("bg-surface-variant");
-          waBtn.classList.add("bg-primary");
-          waKnob.classList.add("translate-x-5");
-          showToast("Recordatorio automático activado");
-        } else {
-          waBtn.classList.remove("bg-primary");
-          waBtn.classList.add("bg-surface-variant");
-          waKnob.classList.remove("translate-x-5");
-          showToast("Recordatorio en pausa");
-        }
-      });
+      // WhatsApp toggle is initialized below after consent and webhook settings are loaded.
 
       // Confirm Button: save locally first, then notify the configured webhook.
       const confirmMealButton = document.getElementById("confirm-meal-btn");
