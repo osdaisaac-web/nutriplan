@@ -12,5 +12,13 @@
     "crons": [
       "* * * * *"
     ]
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nutriplan-push",
+      "database_id": "76e5489a-573c-45b1-a590-94f068a7a6b0",
+      "migrations_dir": "migrations"
+    }
+  ]
 }

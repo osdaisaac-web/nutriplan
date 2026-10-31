@@ -1,5 +1,5 @@
 import { buildPushPayload } from "@block65/webcrypto-web-push";
-const VAPID_PUBLIC_KEY="BBzDacc3HGG_N_cR36cRO-EYeAGslOPpGq8eGgxS6ExDYUhwn9PIG5-d_6pjWKKi6UDScCwmt09NV_eku751ubg";
+const VAPID_PUBLIC_KEY="BFk-5xjMAOzukZZ7JiRbJH1cURsOBECMuNoLkXnzKXxaa1Ove15v9PAGzVjHUk6lkWJtPwBxPSmwRtd2ODKPfSA";
 const VAPID_SUBJECT="https://nutriplan.osdaisaac.workers.dev";
 const MEALS=[
  {key:"desayuno",title:"Desayuno",hour:7,minute:15},

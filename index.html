@@ -1683,8 +1683,7 @@
           const fingerprint = JSON.stringify([snapshot.protein, snapshot.carbohydrate, snapshot.extra]);
           const syncKey = `${todayKey}_${snapshot.mealKey}`;
           if (syncedMealFingerprints[syncKey] === fingerprint) return;
-          syncedMealFingerprints[syncKey] = fingerprint;
-          await fetch("/api/meal/preapproved", {
+          const response = await fetch("/api/meal/preapproved", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -1693,6 +1692,8 @@
               updatedAt: new Date().toISOString()
             })
           });
+          if (!response.ok) throw new Error(`No se pudo sincronizar la comida (HTTP ${response.status}).`);
+          syncedMealFingerprints[syncKey] = fingerprint;
         } catch (error) {
           console.warn("No se pudo sincronizar la preaprobación con el servidor.", error);
         }
